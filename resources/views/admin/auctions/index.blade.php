@@ -148,7 +148,7 @@
             <td>{{$auction->id}}</td>
             <td>{{$auction->title}} </td>
             <td>{{number_format($auction->start_price)}} </td>
-            <td>0</td>
+            <td>{{$auction->bids->count()}}</td>
             <td>{{number_format($auction->current_price)}} </td>
             <td>{{ $auction->deadline_time }} </td>
             <td>
