@@ -1,0 +1,41 @@
+{
+  "menu": [
+    {
+      "menuHeader": "KHU VỰC ADMIN",
+      "middleware": "admin"
+    },
+
+
+    {
+      "url": "/admin/users",
+      "name": "Người dùng",
+      "icon": "menu-icon tf-icons ti ti-users",
+      "slug": "admin.users.index",
+      "middleware": "admin"
+    },
+
+    {
+      "url": "/admin/cities",
+      "name": "Thành phố",
+      "icon": "menu-icon tf-icons ti ti-building-skyscraper",
+      "slug": "admin.cities.index",
+      "middleware": "admin"
+    },
+
+    {
+      "menuHeader": "KHU VỰC STAFF",
+      "middleware": "staff"
+    },
+
+    {
+      "url": "/admin/auctions",
+      "name": "Đấu giá",
+      "icon": "menu-icon tf-icons ti ti-cash",
+      "slug": "admin.auctions.index",
+      "middleware": "staff"
+    }
+
+
+
+  ]
+}
