@@ -44,6 +44,7 @@
     @if(isset($auction))
     $("#status").val('{{$auction->status}}')
     $("#city_id").val('{{$auction->city_id}}')
+    $("#type").val('{{$auction->type}}')
     @endif
 
 
@@ -167,7 +168,57 @@
                 </div>
               </div>
             </div>
+            <div class="col-md-6 mb-4">
+              <div class="card h-100 mb-4">
+                <div class="card-body">
+                  <div class="mb-3">
+                    <label for="estate_code" class="form-label">Mã BĐS</label>
+                    <input @if(isset($auction)) value="{{$auction->estate_code}}" @endif type="text" class="form-control" id="estate_code" name="estate_code" placeholder="Mã BĐS"/>
+                  </div>
+                  <div class="mb-3">
+                    <label for="area" class="form-label">Diện tích</label>
+                    <input @if(isset($auction)) value="{{$auction->area}}" @endif type="number" class="form-control" id="area" name="area" placeholder="Diện tích"/>
+                  </div>
+                  <div class="mb-3">
+                    <label for="count_bathrooms" class="form-label">Số phòng tắm</label>
+                    <input @if(isset($auction)) value="{{$auction->count_bathrooms}}" @endif type="number" class="form-control" id="count_bathrooms" name="count_bathrooms" placeholder="Số phòng tắm"/>
+                  </div>
+                  <div class="mb-3">
+                    <label for="count_bedrooms" class="form-label">Số phòng ngủ</label>
+                    <input @if(isset($auction)) value="{{$auction->count_bedrooms}}" @endif type="number" class="form-control" id="count_bedrooms" name="count_bedrooms" placeholder="Số phòng ngủ"/>
+                  </div>
 
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-4">
+              <div class="card h-100 mb-4">
+                <div class="card-body">
+                  <div class="mb-3">
+                    <label for="count_garage" class="form-label">Số Gara</label>
+                    <input @if(isset($auction)) value="{{$auction->count_garage}}" @endif type="number" class="form-control" id="count_garage" name="count_garage" placeholder="Số Gara"/>
+                  </div>
+
+                  <div class="mb-3">
+                    <label for="area_garage" class="form-label">Diện tích Gara</label>
+                    <input @if(isset($auction)) value="{{$auction->area_garage}}" @endif type="number" class="form-control" id="area_garage" name="area_garage" placeholder="Diện tích Gara"/>
+                  </div>
+                  <div class="mb-3">
+                    <label for="year_build" class="form-label">Năm xây dựng</label>
+                    <input @if(isset($auction)) value="{{$auction->year_build}}" @endif type="text" class="form-control" id="year_build" name="year_build" placeholder="Năm xây dựng"/>
+                  </div>
+                  <div class="mb-3">
+                    <label for="type" class="form-label">Loại hình</label>
+                    <select id="type" name="type" class="form-select">
+                      <option value="apartment">Chung cư</option>
+                      <option value="mini-apartment">Chung cư mini</option>
+                      <option value="townhouse">Nhà phố</option>
+                      <option value="ground">Đất nền</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             <div class="col-md-12">
               <div class="card mb-4">

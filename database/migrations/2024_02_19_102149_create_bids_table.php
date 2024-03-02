@@ -20,8 +20,6 @@ return new class extends Migration {
       $table->tinyInteger("status")->default(0);
       $table->bigInteger("deposit_price");
       $table->tinyInteger("deposit_status")->default(0);
-      $table->bigInteger("tax_price");
-      $table->tinyInteger("tax_status")->default(0);
       $table->bigInteger("remain_price");
       $table->tinyInteger("remain_status")->default(0);
       $table->timestamps();

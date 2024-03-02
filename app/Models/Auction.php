@@ -10,9 +10,9 @@ class Auction extends Model
     use HasFactory;
     protected $guarded = [];
 
-    public function users(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function user(): \Illuminate\Database\Eloquent\Relations\belongsTo
     {
-      return $this->hasMany(User::class);
+      return $this->belongsTo(User::class);
     }
 
     public function bids()

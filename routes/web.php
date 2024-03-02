@@ -20,13 +20,12 @@ use App\Http\Controllers\CommentController;
 */
 
 
-Route::get("/", function (){
-  return view("index");
-});
-
-Route::get("/page-2.html", function (){
-  return view("index2");
-});
+Route::get("/", [\App\Http\Controllers\Webpage\HomeController::class, 'index'])->name("home");
+Route::get("/auction/{id}", [\App\Http\Controllers\Webpage\AuctionController::class, 'index'])->name("auction_detail");
+Route::get("/auction/{id}/bid", [\App\Http\Controllers\Webpage\AuctionController::class, 'bid'])->name("bid");;
+Route::post("/auction/{id}/addBid", [\App\Http\Controllers\Webpage\AuctionController::class, 'addBid']);
+Route::post("/auction/{id}/bid/{bidId}/donePay", [\App\Http\Controllers\Webpage\AuctionController::class, 'donePay']);
+Route::get("/user/historyBid", [\App\Http\Controllers\Webpage\UserController::class, 'historyBid']);
 
 Route::get("/page-3.html", function (){
   return view("index3");
