@@ -302,7 +302,7 @@
                     </table>
                     @if(Auth::check())
                       @if(Auth::user()->role == 2)
-                        @if($auction->bids()->where("user_id", "!=", Auth::id())->count() > 0)
+                        @if($auction->bids()->where("user_id", Auth::id())->count() > 0)
                         <a href="/page-3.html"
                            class="btn btn-primary text-capitalize btn-block text-white"> đấu giá ngay
                           <i class="fa fa-calculator ml-1"></i>

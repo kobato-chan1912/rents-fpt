@@ -103,8 +103,8 @@
         <h5 class="text-center text-capitalize"> Tiến hành đấu giá </h5>
 
       </div>
-      @if($auction->bids()->where("user_id", "!=", Auth::id())->count() > 0)
-      <div class="products__filter__body">
+      @if($auction->bids()->where("user_id", Auth::id())->count() > 0)
+        <div class="products__filter__body">
 
         <div class="form-group">
           <label>Giá khởi điểm</label>
