@@ -82,8 +82,8 @@ class AuctionController extends Controller
 
   public function donePay($id, $bidId)
   {
-    Bid::find($bidId)->update(["tax_status" => "done", "remain_status" => 1]);
-    Auction::find($id)->update(["status" => 1]);
+    Bid::find($bidId)->update(["tax_status" => 1, "remain_status" => 1]);
+    Auction::find($id)->update(["status" => "done"]);
     return response()->json(["status" => 200]);
   }
 
