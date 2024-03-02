@@ -103,7 +103,6 @@
         <h5 class="text-center text-capitalize"> Tiến hành đấu giá </h5>
 
       </div>
-      @if($auction->bids()->where("user_id", Auth::id())->count() > 0)
         <div class="products__filter__body">
 
         <div class="form-group">
@@ -161,10 +160,7 @@
 
         </div>
       </div>
-      @else
-        <p class="text-danger text-center">Bạn đã đấu giá BĐS này rồi!</p>
 
-      @endif
     </div>
 
 

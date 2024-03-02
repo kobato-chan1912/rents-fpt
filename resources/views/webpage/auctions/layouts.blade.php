@@ -302,14 +302,11 @@
                     </table>
                     @if(Auth::check())
                       @if(Auth::user()->role == 2)
-                        @if($auction->bids()->where("user_id", Auth::id())->count() > 0)
-                        <a href="/page-3.html"
+                        <a href="/{{$auction->bid}}"
                            class="btn btn-primary text-capitalize btn-block text-white"> đấu giá ngay
                           <i class="fa fa-calculator ml-1"></i>
                         </a>
-                        @else
-                          <p class="text-danger">Bạn đã đấu giá BĐS này rồi!</p>
-                        @endif
+
 
                       @else
                         <p class="text-danger">Bạn không có quyền đấu giá!</p>
