@@ -100,6 +100,7 @@
         <div class="col-md-4 text-center">
                         <span style="border-radius: 15px; font-size: 15pt" class="badge badge-primary">Giá hiện tại:
                             {{getAuctionPrice($auction)}}</span>
+          @if($auction->status == "trading")
           <main>
             <div id="countdown">
               <div class="countdown__container">
@@ -132,6 +133,11 @@
               </div>
             </div>
           </main>
+          @else
+
+          <p class="text-danger">Đấu giá đã kết thúc</p>
+
+          @endif
 
 
         </div>
