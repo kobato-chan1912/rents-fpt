@@ -171,25 +171,9 @@
 @endsection
 
 @section("page-script")
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
   <script>
 
-    @if(Session::has("success"))
-    Swal.fire({
-      icon: 'success',
-      title: 'Thành công!',
-      text: '{{Session::get("success")}}',
-    })
-    @endif
-
-    @if(Session::has("error"))
-    Swal.fire({
-      icon: 'error',
-      title: 'Thất bại!',
-      text: '{{Session::get("error")}}',
-    })
-    @endif
 
     function addData()
     {

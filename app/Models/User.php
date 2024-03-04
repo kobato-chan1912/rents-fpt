@@ -51,6 +51,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+  public function auctions()
+  {
+    return $this->hasMany(Auction::class);
+  }
+
+  public function averageStars()
+  {
+    $averageStars = $this->auctions()->join('feedback', 'auctions.id', '=', 'feedback.auction_id')
+      ->avg('feedback.star');
+    return number_format($averageStars, 0);
+  }
+
 
 
 }

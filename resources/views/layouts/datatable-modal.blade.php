@@ -2,6 +2,7 @@
   $( document ).ready(function() {
     let dtTable = $(".datatable").DataTable({
       {{ $customSetting ?? null  }}
+
       dom:
         '<"row me-2"' +
         '<"col-md-2"<"me-3"l>>' +

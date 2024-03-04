@@ -9,7 +9,8 @@
         searchPlaceholder: 'Search..'
       },
 
-      responsive: true
+      responsive: false,
+      ordering: false
 
 
 

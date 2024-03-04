@@ -10,7 +10,6 @@
         @endif
 
 
-
         <img src="{{$auction->thumbnail}}" alt="" class="img-fluid w100 img-transition">
         @php
 
@@ -24,6 +23,10 @@
         }
         if ($interval->h !== 0) {
             $format[] = "%h giờ";
+        }
+
+        if ($interval->i !== 0) {
+            $format[] = "%i phút";
         }
 
 
@@ -47,22 +50,22 @@
           <li class="list-inline-item">
 
                                         <span>
-                                            <i class="fa fa-bath"></i> 2
+                                            <i class="fa fa-bath"></i> {{$auction->count_bathrooms}}
                                         </span>
           </li>
           <li class="list-inline-item">
                                         <span>
-                                            <i class="fa fa-bed"></i> 3
+                                            <i class="fa fa-bed"></i> {{$auction->count_bedrooms}}
                                         </span>
           </li>
           <li class="list-inline-item">
                                         <span>
-                                            <i class="fa fa-inbox"></i> 3
+                                            <i class="fa fa-inbox"></i> {{$auction->count_garage}}
                                         </span>
           </li>
           <li class="list-inline-item">
                                         <span>
-                                            <i class="fa fa-map"></i> 4300 sq ft
+                                            <i class="fa fa-map"></i> {{$auction->area}} m2
                                         </span>
           </li>
         </ul>

@@ -33,7 +33,7 @@ class FinishAuction extends Command
       foreach ($auctions as $auction){
         if ($auction->deadline_time <= Carbon::now()){
           $auction->update(["status" => "processing"]);
-          $bids = $auction->bids()->orderBy("bid_price", "desc");
+          $bids = $auction->bids()->where("deposit_status", 1)->where("is_disable", 0)->orderBy("bid_price", "desc");
           if ($bids->count() > 0){
             $winBid = $bids->first();
             $winBid->update(["status" => 1, "tax_status" => 2, "remain_status" => 2]);

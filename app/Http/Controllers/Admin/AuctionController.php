@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Auction;
 use App\Models\Bid;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -26,6 +27,7 @@ class AuctionController extends Controller
   {
     $data = $request->all();
     $data["user_id"] = Auth::id();
+    $data["current_price"] = $request->get("start_price");
     Auction::create($data);
     return redirect("/admin/auctions")->with(["success" => "Tạo đấu giá thành công!"]);
   }
@@ -43,6 +45,13 @@ class AuctionController extends Controller
       $bids = Bid::where("auction_id", $id)->get();
       return view("admin.auctions.bids", compact('auction','bids'));
     }
+
+
+    if ($request->get("tab") == "feedback")
+    {
+      return view("admin.auctions.feedback", compact('auction'));
+    }
+
   }
 
   public function edit($id, Request $request)
@@ -57,6 +66,31 @@ class AuctionController extends Controller
   {
     Auction::find($id)->delete();
     return response()->json(["status" => 200]);
+  }
+
+
+  public function resetAuction($id, Request $request)
+  {
+      $time = $request->get("time");
+      $formatTime = Carbon::parse($time)->format('d/m/Y H:i');
+      $auction = Auction::find($id);
+
+
+      // trả cọc cho những người không trúng (người trúng sẽ không được hoàn cọc)
+      Bid::where("status", 0)->where("deposit_status", 0)->update(["deposit_status" => 3]);
+
+      // Cập nhật disable cho toàn bộ phiên cũ
+      Bid::where("auction_id", $id)->update(["is_disable" => 1]);
+
+      // cập nhật trạng thái cọc và phí thuế của người trúng thầu
+      Bid::where("status", 1)->where("tax_status", 2)->where("remain_status", 2)
+        ->update(["tax_status" => 0, "remain_status" => 0]);
+
+
+      // cập nhật thời gian phiên
+      $auction->update(["deadline_time" => $time, "status" => "trading"]);
+
+      return redirect()->back()->with(["success" => "Phiên đã được reset về "  . $formatTime]);
   }
 
 

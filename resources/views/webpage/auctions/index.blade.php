@@ -19,8 +19,20 @@
                 <h5 class="text-capitalize">{{$auction->user->name}}</h5>
               </li>
               <li><a href="tel:123456"><i class="fa fa-phone-square mr-1"></i>{{$auction->user->email}}</a></li>
-              <li><a href="javascript:void(0)"><i class=" fa fa-building mr-1"></i>
-                  CTY BĐS Thành Long</a>
+              <li>
+                <a href="javascript:void(0)">
+                  <ul class="list-inline">
+                    <li class="list-inline-item">
+                      @for($i = 0; $i < $stars; $i++ )
+                        <i class="fa fa-star" style="color: #3454d1;"></i>
+                      @endfor
+                      @for($i = 0; $i < 5 - $stars; $i++ )
+                        <i class="fa fa-star"></i>
+                      @endfor
+                    </li>
+                    <li class="list-inline-item">{{$stars}}/5</li>
+                  </ul>
+                </a>
               </li>
             </ul>
 

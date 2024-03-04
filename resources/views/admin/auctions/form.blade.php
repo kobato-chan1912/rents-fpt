@@ -2,7 +2,7 @@
 @if(isset($auction))
   @section('title', "$auction->title Edit")
 @else
-  @section('title', "Thêm mới Game")
+  @section('title', "Thêm phiên mới")
 @endif
 @section('vendor-style')
   <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}"/>
@@ -171,10 +171,6 @@
             <div class="col-md-6 mb-4">
               <div class="card h-100 mb-4">
                 <div class="card-body">
-                  <div class="mb-3">
-                    <label for="estate_code" class="form-label">Mã BĐS</label>
-                    <input @if(isset($auction)) value="{{$auction->estate_code}}" @endif type="text" class="form-control" id="estate_code" name="estate_code" placeholder="Mã BĐS"/>
-                  </div>
                   <div class="mb-3">
                     <label for="area" class="form-label">Diện tích</label>
                     <input @if(isset($auction)) value="{{$auction->area}}" @endif type="number" class="form-control" id="area" name="area" placeholder="Diện tích"/>

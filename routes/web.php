@@ -19,19 +19,20 @@ use App\Http\Controllers\CommentController;
 |
 */
 
-
 Route::get("/", [\App\Http\Controllers\Webpage\HomeController::class, 'index'])->name("home");
+Route::get("/auction/checkDeposit", [\App\Http\Controllers\Webpage\AuctionController::class, 'checkDeposit']);
 Route::get("/auction/{id}", [\App\Http\Controllers\Webpage\AuctionController::class, 'index'])->name("auction_detail");
 Route::get("/auction/{id}/bid", [\App\Http\Controllers\Webpage\AuctionController::class, 'bid'])->name("bid");;
+Route::post("/auction/{id}/feedback", [\App\Http\Controllers\Webpage\AuctionController::class, 'addFeedback']);
 Route::post("/auction/{id}/addBid", [\App\Http\Controllers\Webpage\AuctionController::class, 'addBid']);
-Route::post("/auction/{id}/bid/{bidId}/donePay", [\App\Http\Controllers\Webpage\AuctionController::class, 'donePay']);
+
 Route::get("/user/historyBid", [\App\Http\Controllers\Webpage\UserController::class, 'historyBid']);
 
-Route::get("/page-3.html", function (){
+Route::get("/page-3.html", function () {
   return view("index3");
 });
 
-Route::get("/page-4.html", function (){
+Route::get("/page-4.html", function () {
   return view("index4");
 });
 
@@ -48,7 +49,7 @@ Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']
 });
 
 Route::prefix("/admin")->middleware(['auth'])->group(function () {
-  Route::get("/", function (){
+  Route::get("/", function () {
     return view("admin.index");
   });
 
@@ -64,9 +65,11 @@ Route::prefix("/admin")->middleware(['auth'])->group(function () {
     Route::post("/cities/{id}", [\App\Http\Controllers\Admin\CityController::class, 'edit']);
     Route::delete("cities/{id}", [\App\Http\Controllers\Admin\CityController::class, 'delete']);
 
+    Route::get("/feedback", [\App\Http\Controllers\Admin\FeedbackController::class, 'index'])->name("admin.feedback.index");
+    Route::post("/feedback/{id}/updateShow", [\App\Http\Controllers\Admin\FeedbackController::class, 'updateShow']);
+
 
   });
-
 
 
   Route::prefix("/")->middleware(['staff'])->group(function () {
@@ -76,11 +79,9 @@ Route::prefix("/admin")->middleware(['auth'])->group(function () {
     Route::delete("/auctions/{id}", [\App\Http\Controllers\Admin\AuctionController::class, 'delete']);
     Route::get("/auctions/{id}", [\App\Http\Controllers\Admin\AuctionController::class, 'editForm']);
     Route::post("/auctions/{id}", [\App\Http\Controllers\Admin\AuctionController::class, 'edit']);
+    Route::post("/auctions/{id}/reset", [\App\Http\Controllers\Admin\AuctionController::class, 'resetAuction']);
 
   });
-
-
-
 
 
 });

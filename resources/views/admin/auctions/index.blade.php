@@ -35,6 +35,7 @@
     $( document ).ready(function() {
       let dtTable = $(".datatable").DataTable({
         paging: true, searching: true,
+        ordering: false,
         dom:
           '<"row me-2"' +
           '<"col-md-2"<"me-3"l>>' +

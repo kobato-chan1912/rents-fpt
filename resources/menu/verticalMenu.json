@@ -21,7 +21,13 @@
       "slug": "admin.cities.index",
       "middleware": "admin"
     },
-
+    {
+      "url": "/admin/feedback",
+      "name": "Feedback",
+      "icon": "menu-icon tf-icons ti ti-star",
+      "slug": "admin.feedback.index",
+      "middleware": "admin"
+    },
     {
       "menuHeader": "KHU VỰC STAFF",
       "middleware": "staff"

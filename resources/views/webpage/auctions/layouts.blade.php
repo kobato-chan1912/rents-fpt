@@ -3,6 +3,8 @@
   {{$auction->title}}
 @endsection
 @section("page-css")
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+
   <style>
     #countdown {
       position: relative;
@@ -15,24 +17,24 @@
       align-items: center;
     }
 
-    #countdown>h1 {
+    #countdown > h1 {
       font-size: 1.5em;
       letter-spacing: -0.05em;
       color: #2a2a2a;
     }
 
-    #countdown>p {
+    #countdown > p {
       color: #8a8a8a;
     }
 
-    #countdown>p {
+    #countdown > p {
       font-size: 1em;
       font-weight: normal;
       letter-spacing: 0;
       margin-top: 2em;
     }
 
-    #countdown>time {
+    #countdown > time {
       font-family: Abel;
       font-size: 1em;
       font-weight: bold;
@@ -67,7 +69,6 @@
       justify-content: center;
       text-align: center;
       position: relative;
-      height: 95px;
       max-width: 70px;
       width: 100%;
       border-radius: 5px;
@@ -221,7 +222,6 @@
     }
   </style>
 
-
 @endsection
 @section("content")
   @yield("custom_body")
@@ -293,20 +293,23 @@
                       @foreach($auction->bids()->orderBy("id", "desc")->get() as $bid)
 
                         <tr>
-                          <th scope="row">akorop@gmail.com</th>
-                          <td>1,200,000,0000</td>
-                          <td>12/02/2023 09:30</td>
+                          <th scope="row">{{$bid->user->email}}</th>
+                          <td>{{number_format($bid->bid_price)}}</td>
+                          <td>{{\Carbon\Carbon::parse($bid->created_at)->format('d/m/Y H:i')}}</td>
                         </tr>
                       @endforeach
                       </tbody>
                     </table>
                     @if(Auth::check())
                       @if(Auth::user()->role == 2)
-                        <a href="/{{$auction->bid}}"
-                           class="btn btn-primary text-capitalize btn-block text-white"> đấu giá ngay
-                          <i class="fa fa-calculator ml-1"></i>
-                        </a>
-
+                        @if($auction->deadline_time > \Carbon\Carbon::now())
+                          <a href="/auction/{{$auction->id}}/bid"
+                             class="btn btn-primary text-capitalize btn-block text-white"> đấu giá ngay
+                            <i class="fa fa-calculator ml-1"></i>
+                          </a>
+                        @else
+                          <p class="text-danger">Đã hết hạn đấu giá!</p>
+                        @endif
 
                       @else
                         <p class="text-danger">Bạn không có quyền đấu giá!</p>
@@ -347,17 +350,17 @@
                   <div class="row">
                     <div class="col-md-6 col-lg-6">
                       <ul class="property__detail-info-list list-unstyled">
-                        <li><b>Mã BĐS (ID):</b> RV151</li>
-                        <li><b>Diện Tích:</b> 1466m2</li>
-                        <li><b>Phòng Ngủ:</b> 4</li>
-                        <li><b>Phòng Tắm:</b> 2</li>
+                        <li><b>Mã BĐS (ID):</b> {{$auction->id}}</li>
+                        <li><b>Diện Tích:</b> {{$auction->area}} m2</li>
+                        <li><b>Phòng Ngủ:</b> {{$auction->count_bedrooms}}</li>
+                        <li><b>Phòng Tắm:</b> {{$auction->count_bathrooms}} </li>
                       </ul>
                     </div>
                     <div class="col-md-6 col-lg-6">
                       <ul class="property__detail-info-list list-unstyled">
-                        <li><b>Garage:</b> 1</li>
-                        <li><b>Diện Tích Garage:</b> 458m2</li>
-                        <li><b>Năm Xây Dựng:</b> 2019-01-09</li>
+                        <li><b>Garage:</b> {{$auction->count_garage}}</li>
+                        <li><b>Diện Tích Garage:</b> {{$auction->area_garage}}m2</li>
+                        <li><b>Năm Xây Dựng:</b> {{$auction->year_build}}</li>
                         <li><b>Loại BĐS:</b> Nhà Ở Gia Đình Đầy Đủ</li>
                       </ul>
                     </div>
@@ -393,73 +396,60 @@
               <!-- END FEATURES -->
 
 
-
               <!-- RATE US  WRITE -->
               <div class="single__detail-features">
                 <h6 class="text-capitalize detail-heading">Đánh giá</h6>
-                <div class="single__detail-features-review">
-                  <div class="media mt-4">
-                    <img class="mr-3 img-fluid rounded-circle"
-                         src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg"
-                         alt="">
-                    <div class="media-body">
-                      <h6 class="mt-0">Trần Trọng</h6>
-                      <span class="mb-3">24 th 12, 2023</span>
-                      <ul class="list-inline">
-                        <li class="list-inline-item">
-                          <i class="fa fa-star selected"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                        </li>
-                        <li class="list-inline-item">3/5</li>
-                      </ul>
-                      <p> BĐS lừa đảo, gọi chủ không nghe máy. </p>
+                @foreach($auction->feedback()->where("is_show", 1)->get() as $feedback)
+                  <div class="single__detail-features-review">
+                    <div class="media mt-4">
+                      <img class="mr-3 img-fluid rounded-circle"
+                           src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg"
+                           alt="">
+                      <div class="media-body">
+                        <h6 class="mt-0">{{$feedback->user->name}}</h6>
+                        <span class="mb-3">{{$feedback->created_at}}</span>
+                        <ul class="list-inline">
+                          <li class="list-inline-item">
+                            @for($i = 0; $i < $feedback->star; $i++ )
+                            <i class="fa fa-star selected"></i>
+                            @endfor
+                              @for($i = 0; $i < 5 - $feedback->star; $i++ )
+                            <i class="fa fa-star"></i>
+                              @endfor
+                          </li>
+                          <li class="list-inline-item">{{$feedback->star}}/5</li>
+                        </ul>
+                        <p> {!! nl2br($feedback->content) !!} </p>
 
 
+                      </div>
                     </div>
+                    <!-- COMMENT -->
+
+
                   </div>
 
-                  <!-- COMMENT -->
-                  <hr>
+                @endforeach
+
+                @if(Auth::check())
+                <form method="post" action="/auction/{{$auction->id}}/feedback">
+                  @csrf
                   <div class="row">
                     <div class="col-md-12">
                       <p class="mb-2">Để lại đánh giá của bạn:</p>
-                      <ul class="list-inline">
-                        <li class="list-inline-item">
-                          <i class="fa fa-star selected"></i>
-                          <i class="fa fa-star selected"></i>
-                          <i class="fa fa-star selected"></i>
-                          <i class="fa fa-star"></i>
-                          <i class="fa fa-star"></i>
-                        </li>
-                        <li class="list-inline-item">3/5</li>
-                      </ul>
+                      <div class="mb-4" style="z-index: 0" id="rateYo"></div>
+                      <input type="hidden" id="star" name="star">
+                    </div>
+                    <div class="col-md-12">
                       <div class="form-group">
                         <label>Tên</label>
-                        <input type="text" class="form-control" required="required">
-
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control" required="required">
-
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <label>Tiêu đề</label>
-                        <input type="text" class="form-control" required="required">
-
+                        <input disabled value="{{Auth::user()->name}}" type="text" class="form-control" name="name">
                       </div>
                     </div>
                     <div class="col-md-12">
                       <div class="form-group">
                         <label>Nội dung</label>
-                        <textarea class="form-control" rows="4"></textarea>
+                        <textarea required class="form-control" name="content" rows="4"></textarea>
                       </div>
                     </div>
                   </div>
@@ -468,7 +458,8 @@
                       class="fa fa-paper-plane ml-2"></i></button>
                   <!-- END COMMENT -->
 
-                </div>
+                </form>
+                @endif
               </div>
               <!-- END RATE US  WRITE -->
             </div>
@@ -480,7 +471,6 @@
           @yield("right_side")
 
 
-
         </div>
       </div>
 
@@ -488,5 +478,85 @@
     </div>
   </section>
   <!-- END SINGLE DETAIL -->
+
+@endsection
+@section("page-script")
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <script>
+    @if(Session::has("success"))
+    Swal.fire({
+      icon: 'success',
+      title: 'Thành công!',
+      text: '{{Session::get("success")}}',
+    })
+    @endif
+
+    @if(Session::has("error"))
+    Swal.fire({
+      icon: 'error',
+      title: 'Thất bại!',
+      text: '{{Session::get("error")}}',
+    })
+    @endif
+
+    // Start the countdown
+    startCountdown();
+
+    function startCountdown() {
+      var countdownInterval = setInterval(function () {
+        // Get the current values
+        var days = parseInt($('#days h1').text());
+        var hours = parseInt($('#hours h1').text());
+        var minutes = parseInt($('#mins h1').text());
+        var seconds = parseInt($('#seconds h1').text());
+
+        // Update the countdown
+        if (seconds > 0) {
+          seconds--;
+        } else {
+          seconds = 59;
+          if (minutes > 0) {
+            minutes--;
+          } else {
+            minutes = 59;
+            if (hours > 0) {
+              hours--;
+            } else {
+              hours = 23;
+              if (days > 0) {
+                days--;
+              } else {
+                clearInterval(countdownInterval);
+                // Countdown finished
+                return;
+              }
+            }
+          }
+        }
+
+        // Update the HTML elements
+        $('#days h1').text(days);
+        $('#hours h1').text(hours);
+        $('#mins h1').text(minutes);
+        $('#seconds h1').text(seconds);
+      }, 1000);
+    }
+
+
+
+    $(function () {
+
+      $("#rateYo").rateYo({
+        fullStar: true,
+        onChange: function (rating) {
+
+          $("#star").val(rating);
+        }
+      });
+    });
+  </script>
 
 @endsection

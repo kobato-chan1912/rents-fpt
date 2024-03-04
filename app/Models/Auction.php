@@ -19,4 +19,9 @@ class Auction extends Model
     {
       return $this->hasMany(Bid::class);
     }
+
+  public function feedback(): \Illuminate\Database\Eloquent\Relations\HasMany
+  {
+    return $this->hasMany(Feedback::class);
+  }
 }

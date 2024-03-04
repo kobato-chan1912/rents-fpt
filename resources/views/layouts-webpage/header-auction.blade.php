@@ -100,43 +100,35 @@
               <div class="countdown__container">
                 <div class="countdown__el">
                   <div class="countdown__time flip" id="days">
-                    <span class="count curr top"></span>
-                    <span class="count next top">20</span>
-                    <span class="count curr bottom">20</span>
-                    <span class="count next bottom"></span>
+                    <div>
+                      <h1>{{$interval->d}}</h1>
+                    </div>
                   </div>
                   <span class="countdown__label">Ngày</span>
                 </div>
                 <div class="countdown__el">
                   <div class="countdown__time flip" id="hours">
-                    <span class="count curr top"></span>
-                    <span class="count next top">10</span>
-                    <span class="count curr bottom">10</span>
-                    <span class="count next bottom"></span>
+                    <h1>{{$interval->h}}</h1>
                   </div>
                   <span class="countdown__label">Giờ</span>
                 </div>
                 <div class="countdown__el">
                   <div class="countdown__time flip" id="mins">
-                    <span class="count curr top"></span>
-                    <span class="count next top">07</span>
-                    <span class="count curr bottom">07</span>
-                    <span class="count next bottom"></span>
+                    <h1>{{$interval->i}}</h1>
                   </div>
                   <span class="countdown__label">Phút</span>
                 </div>
                 <div class="countdown__el">
                   <div class="countdown__time flip" id="seconds">
-                    <span class="count curr top"></span>
-                    <span class="count next top">10</span>
-                    <span class="count curr bottom">10</span>
-                    <span class="count next bottom"></span>
+                    <h1>{{$interval->s}}</h1>
                   </div>
                   <span class="countdown__label">Giây</span>
                 </div>
               </div>
             </div>
           </main>
+
+
         </div>
       </div>
     </div>

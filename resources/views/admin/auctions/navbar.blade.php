@@ -12,6 +12,12 @@
             <i class="tf-icons ti ti-credit-card ti-xs me-1"></i> Lịch sử đấu giá
           </a>
         </li>
+
+        <li class="nav-item" role="presentation">
+          <a type="button" href="{{Request::fullUrlWithQuery(["tab" => "feedback"])}}" class="nav-link @if(Request::get("tab") == "feedback") active @endif" role="tab">
+            <i class="tf-icons ti ti-star-filled ti-xs me-1"></i> Feedback
+          </a>
+        </li>
       </ul>
     </div>
   </div>
@@ -23,6 +29,12 @@
     <button type="submit" onclick="window.location.href='/admin/auctions'" class="btn btn-secondary me-sm-3 me-1 data-submit waves-effect waves-light">
 
       <i class="tf-icons ti ti-arrow-left ti-xs me-1"></i>Quay lại</button>
+    @if(Request::get("tab") == "bids")
+      <button type="submit" data-bs-target="#resetModal" data-bs-toggle="modal" class="btn btn-danger me-sm-3 me-1 data-submit waves-effect waves-light">
+
+        <i class="tf-icons ti ti-restore ti-xs me-1"></i>Reset Phiên</button>
+    @endif
+
 
   </div>
 </div>

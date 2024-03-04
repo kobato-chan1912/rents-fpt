@@ -38,7 +38,45 @@
 
     <div class="content">
 
-      <div class="row">
+      <!-- Modal -->
+      <div class="modal fade" id="resetModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <form action="/admin/auctions/{{$auction->id}}/reset" method="post">
+            @csrf
+
+            <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel1">Reset phiên giao dịch</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col mb-3">
+                  <label for="time" class="form-label">Chọn thời gian kết thúc</label>
+                  <input required type="datetime-local" id="time" name="time" class="form-control" />
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Reset</button>
+
+              <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal">
+                Đóng
+              </button>
+            </div>
+          </div>
+
+          </form>
+        </div>
+      </div>
+
+
+
+  <div class="row">
         <div class="col-xl-12">
           <div class="card">
             <div class="card-datatable table-responsive">
@@ -58,21 +96,25 @@
                 </thead>
                 <tbody>
                 @foreach($bids as $bid)
-                  <tr id="{{$bid->id}}">
+                  <tr id="{{$bid->id}}" @if($bid->is_disable == 1) style="background-color: rgba(255,4,4,0.07)" @endif>
                     <td>{{$bid->id}}</td>
                     <td>{{$bid->user->name}}</td>
                     <td>{{$bid->user->email}}</td>
                     <td>{{number_format($bid->bid_price)}}</td>
                     <td>
-                      @if($auction->status=="trading")
-                        <span class="badge bg-label-warning">Đang đấu giá</span>
+                      @if($bid->is_disable == 0)
+                            @if($auction->status=="trading")
+                              <span class="badge bg-label-warning">Đang đấu giá</span>
+                            @else
+                              @if($bid->status == 0)
+                                <span class="badge bg-label-danger">Không trúng</span>
+                              @endif
+                              @if($bid->status == 1)
+                                <span class="badge bg-label-success">Trúng thầu</span>
+                              @endif
+                            @endif
                       @else
-                        @if($bid->status == 0)
-                          <span class="badge bg-label-danger">Không trúng</span>
-                        @endif
-                        @if($bid->status == 1)
-                          <span class="badge bg-label-success">Trúng thầu</span>
-                        @endif
+                        <span class="badge bg-label-danger">Bị hủy</span>
                       @endif
 
                     </td>
