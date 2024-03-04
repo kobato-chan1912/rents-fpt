@@ -21,20 +21,13 @@ use App\Http\Controllers\CommentController;
 
 Route::get("/", [\App\Http\Controllers\Webpage\HomeController::class, 'index'])->name("home");
 Route::get("/auction/checkDeposit", [\App\Http\Controllers\Webpage\AuctionController::class, 'checkDeposit']);
+Route::get("/auction/checkRemain", [\App\Http\Controllers\Webpage\AuctionController::class, 'checkRemain']);
 Route::get("/auction/{id}", [\App\Http\Controllers\Webpage\AuctionController::class, 'index'])->name("auction_detail");
-Route::get("/auction/{id}/bid", [\App\Http\Controllers\Webpage\AuctionController::class, 'bid'])->name("bid");;
-Route::post("/auction/{id}/feedback", [\App\Http\Controllers\Webpage\AuctionController::class, 'addFeedback']);
-Route::post("/auction/{id}/addBid", [\App\Http\Controllers\Webpage\AuctionController::class, 'addBid']);
-
-Route::get("/user/historyBid", [\App\Http\Controllers\Webpage\UserController::class, 'historyBid']);
-
-Route::get("/page-3.html", function () {
-  return view("index3");
-});
-
-Route::get("/page-4.html", function () {
-  return view("index4");
-});
+Route::get("/auction/{id}/bid", [\App\Http\Controllers\Webpage\AuctionController::class, 'bid'])->name("bid")->middleware(["auth", "user"]);
+Route::post("/auction/{id}/feedback", [\App\Http\Controllers\Webpage\AuctionController::class, 'addFeedback'])->middleware(["auth", "user"]);;
+Route::post("/auction/{id}/addBid", [\App\Http\Controllers\Webpage\AuctionController::class, 'addBid'])->middleware(["auth", "user"]);;
+Route::get("/auction/{id}/bid/{bidId}/payRemain", [\App\Http\Controllers\Webpage\AuctionController::class, 'donePay'])->middleware(["auth", "user"]);;
+Route::get("/user/historyBid", [\App\Http\Controllers\Webpage\UserController::class, 'historyBid'])->middleware(["auth", "user"]);;
 
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])

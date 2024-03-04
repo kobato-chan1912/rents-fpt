@@ -71,5 +71,6 @@ class Kernel extends HttpKernel
     'expire' => \App\Http\Middleware\BlockExpire::class,
     'admin' => \App\Http\Middleware\AdminRole::class,
     'staff' => \App\Http\Middleware\StaffRole::class,
+    'user' => \App\Http\Middleware\UserRole::class,
   ];
 }

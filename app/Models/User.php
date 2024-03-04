@@ -59,7 +59,7 @@ class User extends Authenticatable
   public function averageStars()
   {
     $averageStars = $this->auctions()->join('feedback', 'auctions.id', '=', 'feedback.auction_id')
-      ->avg('feedback.star');
+      ->where("feedback.is_show", 1)->avg('feedback.star');
     return number_format($averageStars, 0);
   }
 

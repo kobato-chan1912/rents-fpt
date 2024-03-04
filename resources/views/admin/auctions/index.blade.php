@@ -74,7 +74,7 @@
     function deleteEle(element) {
       let id = element.data("id");
       let title = "Thao tác không thể hoàn tác!"
-      let name = "Game " + element.data("name") + " sẽ bị xóa!";
+      let name = "Auction " + element.data("name") + " sẽ bị xóa!";
       Swal.fire({
         title: title,
         icon: 'warning',
@@ -103,7 +103,7 @@
                 Swal.fire({
                   icon: 'success',
                   title: 'Đã xóa!',
-                  text: 'Game đã được xóa thành công!',
+                  text: 'Auction đã được xóa thành công!',
                   customClass: {
                     confirmButton: 'btn btn-warning'
                   },
@@ -135,8 +135,8 @@
           <th>id</th>
           <th>Tiêu đề</th>
           <th>Giá khởi điểm</th>
-          <th>Giá hiện tại</th>
           <th>Số người đấu giá</th>
+          <th>Giá hiện tại</th>
           <th>Ngày kết thúc</th>
           <th>Trạng thái</th>
           <th>Ngày tạo</th>

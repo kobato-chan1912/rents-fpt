@@ -33,11 +33,16 @@
         <!-- Search bar.// -->
         <ul class="navbar-nav ">
           @if(Auth::check())
-            <li>
+            @if(Auth::user()->role == 2)
               <a href="javascript:void(0)" class="btn btn-primary text-capitalize">
                 <i class="fa fa-user mr-1"></i>Xin chào, {{Auth::user()->name}} </a>
+              <a href="/user/historyBid" class="btn btn-primary text-capitalize">
+                <i class="fa fa-paypal mr-1"></i> Lịch sử đấu giá </a>
 
-            </li>
+            @else
+              <a href="/admin" target="_blank" class="btn btn-primary text-capitalize">
+                <i class="fa fa-user mr-1"></i> Trang quản trị </a>
+            @endif
             <li style="padding-left: 10px">
               <a href="{{ route('logout') }}"
                  onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="btn btn-danger text-capitalize">

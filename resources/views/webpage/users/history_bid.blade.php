@@ -93,10 +93,10 @@
 
         </td>
         <td class="text-center">
-          @if($bid->status == 1 && ($bid->tax_status == 2))
+          @if($bid->status == 1 && ($bid->tax_status == 2) && ($bid->is_disable == 0))
 
-            <a href="javascript:void(0)" class="btn btn-primary text-capitalize">
-              <i class="fa fa-user mr-1"></i>Thanh toán còn lại </a>
+            <a href="/auction/{{$bid->auction->id}}/bid/{{$bid->id}}/payRemain" class="btn btn-primary text-capitalize">
+              <i class="fa fa-dollar mr-1"></i>Thanh toán còn lại </a>
 
           @endif
         </td>

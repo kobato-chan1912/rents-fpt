@@ -290,7 +290,7 @@
                       </thead>
                       <tbody>
 
-                      @foreach($auction->bids()->orderBy("id", "desc")->get() as $bid)
+                      @foreach($auction->bids()->where("deposit_status" , ">" , 0)->where("is_disable", 0)->orderBy("id", "desc")->get() as $bid)
 
                         <tr>
                           <th scope="row">{{$bid->user->email}}</th>
@@ -316,7 +316,7 @@
 
                       @endif
                     @else
-                      <a href="/login"
+                      <a href="/auction/{{$auction->id}}/bid"
                          class="btn btn-primary text-capitalize btn-block text-white"> đấu giá ngay
                         <i class="fa fa-calculator ml-1"></i>
                       </a>
@@ -431,7 +431,7 @@
 
                 @endforeach
 
-                @if(Auth::check())
+                @if(Auth::check() && (Auth::id() !== $auction->user->id))
                 <form method="post" action="/auction/{{$auction->id}}/feedback">
                   @csrf
                   <div class="row">

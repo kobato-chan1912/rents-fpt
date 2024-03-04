@@ -10,6 +10,7 @@ use App\Services\VnPayService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class AuctionController extends Controller
 {
@@ -24,7 +25,7 @@ class AuctionController extends Controller
   function countTaxPrice($bidAmount)
   {
     if ($bidAmount < 1000000000) {
-      return $bidAmount * 0.02;
+      return $bidAmount * 0.04;
     } elseif ($bidAmount < 3000000000) {
       return $bidAmount * 0.03;
     } elseif ($bidAmount < 5000000000) {
@@ -72,11 +73,65 @@ class AuctionController extends Controller
   }
 
 
-  public function donePay($id, $bidId)
+  public function donePay($id, $bidId, Request $request)
   {
-    Bid::find($bidId)->update(["tax_status" => 1, "remain_status" => 1]);
-    Auction::find($id)->update(["status" => "done"]);
-    return response()->json(["status" => 200]);
+
+    $bid = Bid::find($bidId);
+    $needPay = $bid->remain_price + $bid->tax_price;
+    $vnPayAmount = $needPay*100;
+    $link =  $this->VnPAY->createLink( env("REDIRECT_PAY_REMAIN_URL") ,env("VNPAY_HASH"), env("VNPAY_TMNCODE"), $vnPayAmount,
+      $request->ip(), "THANH TOAN CON LAI #" . $bid->id, 250000, Str::random(4)." REMAIN". $bid->id, Carbon::now()->addMinutes(15)->format('YmdHis'));
+
+    if ($link["code"] = '00') {
+      return redirect($link["data"]);
+    }
+
+  }
+
+  public function checkRemain( Request $request)
+  {
+    $txnRef = $request->get("vnp_TxnRef");
+    preg_match('/REMAIN(\d+)/', $txnRef, $matches);
+    $bidId = $matches[1]; // xử lý chuỗi tìm ra mã bid
+    $bid = Bid::findOrFail($bidId); // xử lý chuỗi tìm ra mã bid
+    $auction = $bid->auction;
+    $vnp_SecureHash = $request->get("vnp_SecureHash");
+    $inputData = array();
+    foreach ($request->all() as $key => $value) {
+      if (substr($key, 0, 4) == "vnp_") {
+        $inputData[$key] = $value;
+      }
+    }
+    unset($inputData['vnp_SecureHash']);
+    ksort($inputData);
+    $i = 0;
+    $hashData = "";
+    foreach ($inputData as $key => $value) {
+      if ($i == 1) {
+        $hashData = $hashData . '&' . urlencode($key) . "=" . urlencode($value);
+      } else {
+        $hashData = $hashData . urlencode($key) . "=" . urlencode($value);
+        $i = 1;
+      }
+    }
+    $secureHash = hash_hmac('sha512', $hashData, env("VNPAY_HASH"));
+    if ($secureHash == $vnp_SecureHash) {
+
+      $status = $request->get("vnp_ResponseCode");
+      if ($status == "00") {
+
+        Bid::find($bidId)->update(["tax_status" => 1, "remain_status" => 1]);
+        Auction::find($auction->id)->update(["status" => "done"]);
+        return redirect("/auction/" . $auction->id )->with(["success" => "Bạn đã chính thức sở hữu BĐS!"]);
+
+      } else {
+        return redirect("/auction/" . $auction->id)->with(["error" => "Thanh toán thất bại!"]);
+
+      }
+
+    } else {
+      return redirect("/auction/" . $auction->id)->with(["error" => "Chữ ký không hợp lệ!"]);
+    }
   }
 
 
@@ -116,7 +171,7 @@ class AuctionController extends Controller
 
 
       $link = $this->VnPAY->createLink( env("REDIRECT_PAY_DEPOSIT_URL") ,env("VNPAY_HASH"), env("VNPAY_TMNCODE"), $vnPayAmount,
-        $request->ip(), "THANH TOAN COC #" . $bid->id, 250000, $bid->id, Carbon::now()->addMinutes(15)->format('YmdHis'));
+        $request->ip(), "THANH TOAN COC #" . $bid->id, 250000, "COC". $bid->id, Carbon::now()->addMinutes(15)->format('YmdHis'));
 
       if ($link["code"] = '00') {
         return redirect($link["data"]);
@@ -128,12 +183,19 @@ class AuctionController extends Controller
 
   }
 
+
+
+
   public function checkDeposit(Request $request)
   {
-    $bidPrice = $request->get("vnp_Amount");
-    $bid = Bid::findOrFail($request->get("vnp_TxnRef")); // xử lý chuỗi tìm ra mã bid
+    $bidPrice = $request->get("vnp_Amount") / 10;
+    $txnRef = $request->get("vnp_TxnRef");
+    preg_match('/COC(\d+)/', $txnRef, $matches);
+    $bidId = $matches[1]; // xử lý chuỗi tìm ra mã bid
+    $bid = Bid::findOrFail($bidId); // xử lý chuỗi tìm ra mã bid
+
     $auction = $bid->auction;
-    $check = Bid::where("id", $request->get("vnp_TxnRef"))->where("auction_id", $auction->id)
+    $check = Bid::where("id", $bidId)->where("auction_id", $auction->id)
       ->where("deposit_status", 0)->exists();
     // check bid
     if ($check) {
