@@ -79,7 +79,7 @@ class AuctionController extends Controller
     $register = AuctionRegister::create([
       "auction_id" =>$id,
       "user_id" => Auth::id(),
-      "price" => $auction->start_price * 10/100
+      "price" => $needPay
     ]);
 
     $vnPayAmount = $needPay*100;
@@ -93,6 +93,49 @@ class AuctionController extends Controller
     }
 
 
+  }
+  public function checkRegister( Request $request)
+  {
+    $txnRef = $request->get("vnp_TxnRef");
+    preg_match('/COC(\d+)/', $txnRef, $matches);
+    $registerId = $matches[1]; // xử lý chuỗi tìm ra mã bid
+    $register = AuctionRegister::findOrFail($registerId); // xử lý chuỗi tìm ra mã đăng ký
+    $vnp_SecureHash = $request->get("vnp_SecureHash");
+    $inputData = array();
+    foreach ($request->all() as $key => $value) {
+      if (substr($key, 0, 4) == "vnp_") {
+        $inputData[$key] = $value;
+      }
+    }
+    unset($inputData['vnp_SecureHash']);
+    ksort($inputData);
+    $i = 0;
+    $hashData = "";
+    foreach ($inputData as $key => $value) {
+      if ($i == 1) {
+        $hashData = $hashData . '&' . urlencode($key) . "=" . urlencode($value);
+      } else {
+        $hashData = $hashData . urlencode($key) . "=" . urlencode($value);
+        $i = 1;
+      }
+    }
+    $secureHash = hash_hmac('sha512', $hashData, env("VNPAY_HASH"));
+    if ($secureHash == $vnp_SecureHash) {
+
+      $status = $request->get("vnp_ResponseCode");
+      if ($status == "00") {
+
+        AuctionRegister::find($registerId)->update(["is_paid" => 1]);
+        return redirect("/auction/" . $register->auction->id )->with(["success" => "Bạn đã chính thức sở hữu BĐS!"]);
+
+      } else {
+        return redirect("/auction/" . $register->auction->id)->with(["error" => "Thanh toán thất bại!"]);
+
+      }
+
+    } else {
+      return redirect("/auction/" . $register->auction->id)->with(["error" => "Chữ ký không hợp lệ!"]);
+    }
   }
 
 
