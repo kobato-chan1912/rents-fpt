@@ -17,6 +17,7 @@ class AuthController extends Controller
 
   }
 
+
   function generateNumericOTP($n): string
   {
     $generator = "1357902468";

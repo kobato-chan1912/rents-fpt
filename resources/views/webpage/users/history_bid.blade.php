@@ -9,9 +9,7 @@
       <th scope="col" class="text-center">Mã đấu giá</th>
       <th scope="col">BĐS đấu</th>
       <th scope="col" class="text-center">Trạng thái</th>
-      <th scope="col" class="text-center">Tiền cọc</th>
-      <th scope="col" class="text-center">Tiền còn lại</th>
-      <th scope="col" class="text-center">Tiền phí APP</th>
+      <th scope="col" class="text-center">Số tiền Bid</th>
       <th scope="col" class="text-center">Thanh toán</th>
     </tr>
     </thead>
@@ -22,7 +20,7 @@
         <td><a href="/auction/{{$bid->auction->id}}">{{$bid->auction->title}}</a></td>
         <td class="text-center">
           @if($bid->is_disable == 0)
-            @if($bid->auction->status=="trading")
+             @if($bid->auction->status=="trading")
               <span class="badge badge-warning">Đang đấu giá</span>
             @else
               @if($bid->status == 0)
@@ -37,63 +35,9 @@
           @endif
 
         </td>
+        <td class="text-center">{{number_format($bid->bid_price)}}</td>
         <td class="text-center">
-
-            @if($bid->deposit_status == 0)
-              <span class="badge badge-danger">Chưa thanh toán</span>
-            @endif
-            @if($bid->deposit_status == 1)
-              <span class="badge badge-success">Đã thanh toán</span>
-            @endif
-            @if($bid->deposit_status == 3)
-              <span class="badge badge-warning">Refund</span>
-            @endif
-                <p>
-                  {{number_format($bid->deposit_price)}}
-
-                </p>
-        </td>
-        <td class="text-center">
-            @if($bid->remain_status == 0)
-              <span class="badge badge-danger">Chưa thanh toán</span>
-            @endif
-            @if($bid->remain_status == 1)
-              <span class="badge badge-success">Đã thanh toán</span>
-            @endif
-              @if($bid->remain_status == 2)
-                <span class="badge badge-warning">Đợi đóng</span>
-              @endif
-            @if($bid->remain_status == 3)
-              <span class="badge badge-warning">Refund</span>
-            @endif
-
-              <p>
-                {{number_format($bid->remain_price)}}
-              </p>
-
-        </td>
-        <td class="text-center">
-            @if($bid->tax_status == 0)
-              <span class="badge badge-danger">Chưa thanh toán</span>
-            @endif
-            @if($bid->tax_status == 1)
-              <span class="badge badge-success">Đã thanh toán</span>
-            @endif
-              @if($bid->tax_status == 2)
-                <span class="badge badge-warning">Đợi đóng</span>
-              @endif
-            @if($bid->tax_status == 3)
-              <span class="badge badge-warning">Refund</span>
-            @endif
-
-          <p>
-            {{number_format($bid->tax_price)}}
-
-          </p>
-
-        </td>
-        <td class="text-center">
-          @if($bid->status == 1 && ($bid->tax_status == 2) && ($bid->is_disable == 0))
+          @if($bid->status == 1 && ($bid->is_disable == 0))
 
             <a href="/auction/{{$bid->auction->id}}/bid/{{$bid->id}}/payRemain" class="btn btn-primary text-capitalize">
               <i class="fa fa-dollar mr-1"></i>Thanh toán còn lại </a>

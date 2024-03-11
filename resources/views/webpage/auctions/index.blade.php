@@ -3,6 +3,89 @@
 
   <!-- FORM FILTER -->
   <div class="products__filter mb-30">
+    <div class="profile__agent">
+      <div class="profile__agent__group">
+
+        <div class="profile__agent__header">
+          <div class="profile__agent__header-avatar">
+
+            <div class="row" style="">
+              <div class="col-6">
+                <p class="left-title-text no-margin">Mã tài sản:</p>
+              </div>
+              <div class="col-6">
+                <p class="right-info-text no-margin">#{{$auction->id}}</p>
+              </div>
+
+              <div class="col-6">
+
+                <p class="left-title-text no-margin">Thời gian mở đăng ký:</p>
+              </div>
+              <div class="col-6">
+
+                <p class="right-info-text no-margin">{{\Carbon\Carbon::parse($auction->created_at)->format('d/m/Y H:i')}}</p>
+              </div>
+              <div class="col-6">
+
+                <p class="left-title-text no-margin">Thời gian kết thúc đăng ký:</p>
+              </div>
+              <div class="col-6">
+
+                <p class="right-info-text no-margin">{{\Carbon\Carbon::parse($auction->deadline_time)->format('d/m/Y H:i')}}</p>
+              </div>
+              <div class="col-6">
+
+                <p class="left-title-text no-margin">Giá khởi điểm:</p>
+              </div>
+              <div class="col-6">
+
+                <p class="right-info-text no-margin"><span class="novaticPrice openningPrice">{{number_format($auction->start_price)}}</span> <span class="unitPrice"> VNĐ</span></p>
+              </div>
+              <div class="col-6">
+
+                <p class="left-title-text no-margin">Phí đăng ký tham gia đấu giá:</p>
+              </div>
+              <div class="col-6">
+
+                <p class="right-info-text no-margin"><span class="novaticPrice registerFee">200.000</span> VNĐ</p>
+              </div>
+              <div class="col-6">
+
+                <p class="left-title-text no-margin">Bước giá:</p>
+              </div>
+              <div class="col-6">
+                <p class="right-info-text no-margin"><span class="novaticPrice step-price">{{number_format($auction->jump_price)}}</span> <span class="unitPrice"> VNĐ</span></p>
+              </div>
+
+              <div class="col-6">
+
+                <p class="left-title-text no-margin">Phương thức đấu giá:</p>
+              </div>
+              <div class="col-6">
+                <p class="right-info-text no-margin">Trả giá lên và liên tục</p>
+              </div>
+              <div class="col-6">
+                <p class="left-title-text no-margin">Tên chủ tài sản:</p>
+              </div>
+              <div class="col-6">
+
+                <p class="right-info-text no-margin">{{$auction->user->name}}</p>
+              </div>
+
+
+            </div>
+
+
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </div>
+  </div>
+  <div class="products__filter mb-30">
     <div class="profile__agent mb-30">
       <div class="profile__agent__group">
 

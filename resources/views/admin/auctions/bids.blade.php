@@ -88,9 +88,6 @@
                   <th>Email</th>
                   <th>Giá đấu</th>
                   <th>Trạng thái</th>
-                  <th>Cọc</th>
-                  <th>Còn lại</th>
-                  <th>Phí thuế%</th>
                   <th>Ngày tạo</th>
                 </tr>
                 </thead>
@@ -117,46 +114,6 @@
                         <span class="badge bg-label-danger">Bị hủy</span>
                       @endif
 
-                    </td>
-                    <td>
-                      @if($bid->deposit_status == 0)
-                        <span class="badge bg-label-danger">Chưa thanh toán</span>
-                      @endif
-                      @if($bid->deposit_status == 1)
-                        <span class="badge bg-label-success">Đã thanh toán</span>
-                      @endif
-                      @if($bid->deposit_status == 3)
-                        <span class="badge bg-label-warning">Refund</span>
-                      @endif
-                    </td>
-                    <td>
-                      @if($bid->remain_status == 0)
-                        <span class="badge bg-label-danger">Chưa thanh toán</span>
-                      @endif
-                      @if($bid->remain_status == 1)
-                        <span class="badge bg-label-success">Đã thanh toán</span>
-                      @endif
-                        @if($bid->remain_status == 2)
-                          <span class="badge bg-label-warning">Đợi đóng</span>
-                        @endif
-                      @if($bid->remain_status == 3)
-                        <span class="badge bg-label-warning">Refund</span>
-                      @endif
-                    </td>
-
-                    <td>
-                      @if($bid->tax_status == 0)
-                        <span class="badge bg-label-danger">Chưa thanh toán</span>
-                      @endif
-                      @if($bid->tax_status == 1)
-                        <span class="badge bg-label-success">Đã thanh toán</span>
-                      @endif
-                        @if($bid->tax_status == 2)
-                          <span class="badge bg-label-warning">Đợi đóng</span>
-                        @endif
-                      @if($bid->tax_status == 3)
-                        <span class="badge bg-label-warning">Refund</span>
-                      @endif
                     </td>
                     <td>{{\Carbon\Carbon::parse($bid->created_at)->format('H:i d/m/Y')}}</td>
                   </tr>

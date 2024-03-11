@@ -233,6 +233,15 @@
       <div class="row">
         <div class="col-lg-8">
           <!-- SLIDER IMAGE DETAIL -->
+
+          @if(Request::route()->getName() == "bid")
+          <div id="post">
+            <div class="alert alert-warning" role="alert">
+              <span style="font-size: 10pt">Luật đấu giá tài sản quy định tài sản bán đấu giá bao gồm tài sản mà pháp luật quy định phải bán thông qua đấu giá và tài sản do tổ chức, cá nhân tự nguyện lựa chọn bán thông qua đấu giá. Đối với tài sản mà pháp luật quy định phải bán thông qua đấu giá, Luật liệt kê cụ thể các loại tài sản này trên cơ sở rà soát quy định tại pháp luật chuyên ngành nhằm bảo đảm công khai, minh bạch, làm cơ sở cho các cơ quan, tổ chức, cá nhân tuân thủ trình tự, thủ tục quy định tại Luật đấu giá tài sản khi bán đấu giá các loại tài sản đó, ví dụ như tài sản là quyền sử dụng đất theo Luật đất đai, tài sản nhà nước theo Luật quản lý, sử dụng tài sản nhà nước, tài sản thi hành án theo Luật thi hành án dân sự, tài sản của doanh nghiệp phá sản theo Luật phá sản...Đồng thời, để đảm bảo tính thống nhất, ổn định, lâu dài Luật đấu giá tài sản có quy định mở trong trường hợp pháp luật chuyên ngành sau này có quy định tài sản phải bán thông qua đấu giá thì cũng thuộc phạm vi điều chỉnh của Luật, ví dụ như pháp luật chuyên ngành quy định biển số xe, quyền sở hữu trí tuệ, quyền khai thác cảng biển, sân bay... phải bán thông qua đấu giá thì được thực hiện theo trình tự, thủ tục của Luật đấu giá tài sản.</span>
+            </div>
+          </div>
+          @endif
+
           <div class="slider__image__detail-large owl-carousel owl-theme">
             @foreach($galleries as $image)
               <div class="item">
@@ -290,7 +299,7 @@
                       </thead>
                       <tbody>
 
-                      @foreach($auction->bids()->where("deposit_status" , ">" , 0)->where("is_disable", 0)->orderBy("id", "desc")->get() as $bid)
+                      @foreach($auction->bids()->where("is_disable", 0)->orderBy("id", "desc")->get() as $bid)
 
                         <tr>
                           <th scope="row">{{$bid->user->email}}</th>
@@ -641,6 +650,10 @@
     });
 
 
+
+
+
+
     function addData()
     {
       let bidInput = parseCurrency($("#bid_input").val());
@@ -648,7 +661,7 @@
       if (bidInput >= minValue){
         $("#bid_price").val(bidInput)
         $("#calculate_modal").modal('show')
-        $("#deposit_now").html(formatPrice(bidInput*10/100))
+        $("#deposit_now").html(formatPrice(bidInput))
       } else {
         alert("Không đúng số tiền tối thiểu!");
       }
