@@ -23,6 +23,29 @@ class AuctionController extends Controller
     $this->VnPAY = new VnPayService();
   }
 
+  function countTaxPrice($amount) {
+    if ($amount < 1000000000) {
+      return $amount * 0.04;
+    } else if ($amount < 3000000000) {
+      return $amount * 0.03;
+    } else if ($amount < 5000000000) {
+      return $amount * 0.025;
+    } else if ($amount < 10000000000) {
+      return $amount * 0.0225;
+    } else if ($amount < 15000000000) {
+      return $amount * 0.02;
+    } else if ($amount < 25000000000) {
+      return $amount * 0.0175;
+    } else if ($amount < 35000000000) {
+      return $amount * 0.015;
+    } else if ($amount < 45000000000) {
+      return $amount * 0.01;
+    } else if ($amount < 60000000000) {
+      return $amount * 0.0075;
+    } else {
+      return $amount * 0.005;
+    }
+  }
 
 
   public function getAuctionData($id, $auction, $stars = null)
@@ -52,7 +75,7 @@ class AuctionController extends Controller
   public function register($id, Request $request)
   {
     $auction = Auction::where("status", "trading")->findOrFail($id);
-    $needPay = $auction->start_price * 10/100; // + VAT
+    $needPay = $auction->start_price * 10/100 + $this->countTaxPrice($auction->start_price); // + VAT
     $register = AuctionRegister::create([
       "auction_id" =>$id,
       "user_id" => Auth::id(),
