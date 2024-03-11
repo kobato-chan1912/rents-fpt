@@ -126,7 +126,7 @@ class AuctionController extends Controller
       if ($status == "00") {
 
         AuctionRegister::find($registerId)->update(["is_paid" => 1]);
-        return redirect("/auction/" . $register->auction->id )->with(["success" => "Bạn đã chính thức sở hữu BĐS!"]);
+        return redirect("/auction/" . $register->auction->id )->with(["success" => "Bạn đã đăng ký thành công!"]);
 
       } else {
         return redirect("/auction/" . $register->auction->id)->with(["error" => "Thanh toán thất bại!"]);
