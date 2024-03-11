@@ -21,7 +21,7 @@ use App\Http\Controllers\CommentController;
 
 Route::get("/", [\App\Http\Controllers\Webpage\HomeController::class, 'index'])->name("home");
 Route::get("/auction/checkRemain", [\App\Http\Controllers\Webpage\AuctionController::class, 'checkRemain']);
-Route::get("/auction/checkRegister", [\App\Http\Controllers\Webpage\AuctionController::class, 'register']);
+Route::get("/auction/checkRegister", [\App\Http\Controllers\Webpage\AuctionController::class, 'checkRegister']);
 Route::get("/auction/{id}", [\App\Http\Controllers\Webpage\AuctionController::class, 'index'])->name("auction_detail");
 Route::get("/auction/{id}/bid", [\App\Http\Controllers\Webpage\AuctionController::class, 'bid'])->name("bid")->middleware(["auth", "user"]);
 Route::post("/auction/{id}/feedback", [\App\Http\Controllers\Webpage\AuctionController::class, 'addFeedback'])->middleware(["auth", "user"]);;
