@@ -56,7 +56,7 @@
           @endif
 
           @if($bid->tax_status == "paid")
-            <span class="badge badge-warning">Đã thanh toán</span>
+            <span class="badge badge-success">Đã thanh toán</span>
           @endif
 
         </td>
@@ -71,7 +71,7 @@
           @endif
 
           @if($bid->remain_status == "paid")
-            <span class="badge badge-warning">Đã thanh toán</span>
+            <span class="badge badge-success">Đã thanh toán</span>
           @endif
 
         </td>
