@@ -240,8 +240,7 @@ class AuctionController extends Controller
 
       $status = $request->get("vnp_ResponseCode");
       if ($status == "00") {
-
-        Bid::find($bidId)->update(["status" => 1]);
+        Bid::find($bidId)->update(["tax_status" => "paid", "remain_status" => "paid"]);
         Auction::find($auction->id)->update(["status" => "done"]);
         return redirect("/auction/" . $auction->id )->with(["success" => "Bạn đã chính thức sở hữu BĐS!"]);
 
