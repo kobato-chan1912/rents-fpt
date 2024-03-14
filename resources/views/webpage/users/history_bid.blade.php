@@ -76,7 +76,7 @@
 
         </td>
         <td class="text-center">
-          @if($bid->status == "won")
+          @if($bid->status == "won" && $bid->tax_status=="waiting" )
 
             <a href="/auction/{{$bid->auction->id}}/bid/{{$bid->id}}/payRemain" class="btn btn-primary text-capitalize">
               <i class="fa fa-dollar mr-1"></i>Thanh toán còn lại </a>
