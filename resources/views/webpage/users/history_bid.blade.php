@@ -49,9 +49,7 @@
           @if($bid->tax_status == null)
             <span class="badge badge-warning">Đang đấu giá</span>
           @endif
-          @if($bid->tax_status == "not_won")
-            <span class="badge badge-danger">Không trúng</span>
-          @endif
+
           @if($bid->tax_status == "waiting")
             <span class="badge badge-warning">Đợi thanh toán</span>
           @endif
@@ -65,9 +63,7 @@
           @if($bid->remain_status == null)
             <span class="badge badge-warning">Đang đấu giá</span>
           @endif
-          @if($bid->remain_status == "not_won")
-            <span class="badge badge-danger">Không trúng</span>
-          @endif
+
           @if($bid->remain_status == "waiting")
             <span class="badge badge-warning">Đợi thanh toán</span>
           @endif
