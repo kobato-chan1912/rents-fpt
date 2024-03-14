@@ -43,9 +43,10 @@
         <td class="text-center">{{number_format($bid->bid_price)}}</td>
         <td>
           @php $depositStatus = $bid->auction_register->paid_status @endphp
-          {{showDepositStatus()[$depositStatus]}}
+          {{showDepositStatus()[$depositStatus]}} ({{number_format($bid->auction_register->price)}})
         </td>
         <td>
+          {{number_format($bid->tax_price)}} <br>
           @if($bid->tax_status == null)
             <span class="badge badge-warning">Đang đấu giá</span>
           @endif
@@ -60,6 +61,7 @@
 
         </td>
         <td>
+          {{number_format($bid->remain_price)}} <br>
           @if($bid->remain_status == null)
             <span class="badge badge-warning">Đang đấu giá</span>
           @endif

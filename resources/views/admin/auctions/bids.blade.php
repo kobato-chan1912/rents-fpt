@@ -88,6 +88,8 @@
                   <th>Giá đấu</th>
                   <th>Trạng thái</th>
                   <th>Cọc</th>
+                  <th>Thuế</th>
+                  <th>Còn lại</th>
                   <th>Trạng thái thuế</th>
                   <th>Trạng thái phí còn lại</th>
                   <th>Ngày tạo</th>
@@ -121,8 +123,11 @@
                     </td>
                     <td>
                       @php $depositStatus = $bid->auction_register->paid_status @endphp
-                      {{showDepositStatus()[$depositStatus]}}
+                      {{showDepositStatus()[$depositStatus]}} ({{number_format($bid->auction_register->price)}})
                     </td>
+                    <td>{{number_format($bid->tax_price)}}</td>
+                    <td>{{number_format($bid->remain_price)}}</td>
+
                     <td>
                       @if($bid->tax_status == null)
                         <span class="badge bg-label-warning">Đang đấu giá</span>

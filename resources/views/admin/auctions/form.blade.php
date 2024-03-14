@@ -157,7 +157,7 @@
 
                   <div class="mb-3">
                     <label for="deadline_time" class="form-label">Thời gian kết thúc</label>
-                    <input @if(isset($auction)) value="{{$auction->deadline_time}}" @endif required type="datetime-local" class="form-control" id="deadline_time" name="deadline_time" placeholder="Thời gian kết thúc"/>
+                    <input @if(isset($auction)) value="{{$auction->deadline_time}}" @endif @if($auction->status !== "trading") disabled @endif required type="datetime-local" class="form-control" id="deadline_time" name="deadline_time" placeholder="Thời gian kết thúc"/>
                   </div>
 
                   <div class="mb-3">
