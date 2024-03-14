@@ -298,15 +298,14 @@
                       </tr>
                       </thead>
                       <tbody>
-
-                      @foreach($auction->bids()->where("is_disable", 0)->orderBy("id", "desc")->get() as $bid)
-
+                      @foreach($auction->bids()->where('status', '!=', 'cancel')->orWhere('status', null)->orderBy('id', 'desc')->get() as $bid)
                         <tr>
-                          <th scope="row">{{$bid->user->email}}</th>
-                          <td>{{number_format($bid->bid_price)}}</td>
-                          <td>{{\Carbon\Carbon::parse($bid->created_at)->format('d/m/Y H:i')}}</td>
+                          <th scope="row">{{ $bid->user->email }}</th>
+                          <td>{{ number_format($bid->bid_price) }}</td>
+                          <td>{{ $bid->created_at->format('d/m/Y H:i') }}</td>
                         </tr>
                       @endforeach
+
                       </tbody>
                     </table>
                     @if(Auth::check())

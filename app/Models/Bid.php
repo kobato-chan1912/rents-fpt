@@ -17,4 +17,10 @@ class Bid extends Model
     {
       return $this->belongsTo(Auction::class);
     }
+
+  public function auction_register(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+  {
+    return $this->belongsTo(AuctionRegister::class);
+  }
+
 }

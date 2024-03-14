@@ -31,4 +31,30 @@ function countTaxPrice($bidAmount)
 
 }
 
+function showDepositStatus()
+{
+  return [
+    "paid" => "Đã thanh toán",
+    "not_paid" => "Chưa thanh toán",
+    "refund" => "Hoàn tiền"
+  ];
+}
+function showTaxStatus(): array
+{
+  return [
+    "paid" => "Đã thanh toán",
+    "not_win" => "Không trúng",
+    "waiting" => "Đợi thanh toán",
+  ];
+}
+
+function showBidStatus()
+{
+  return [
+    "won" => "Trúng thầu",
+    "no_won" => "Không trúng",
+    "cancel" => "Bị hủy"
+  ];
+}
+
 ?>

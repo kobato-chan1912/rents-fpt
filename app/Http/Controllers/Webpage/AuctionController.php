@@ -75,7 +75,7 @@ class AuctionController extends Controller
   public function register($id, Request $request)
   {
     $auction = Auction::where("status", "trading")->findOrFail($id);
-    $needPay = $auction->start_price * 10/100 + $this->countTaxPrice($auction->start_price); // + VAT
+    $needPay = $auction->start_price * 10/100; // + VAT
     $register = AuctionRegister::create([
       "auction_id" =>$id,
       "user_id" => Auth::id(),
@@ -125,7 +125,7 @@ class AuctionController extends Controller
       $status = $request->get("vnp_ResponseCode");
       if ($status == "00") {
 
-        AuctionRegister::find($registerId)->update(["is_paid" => 1]);
+        AuctionRegister::find($registerId)->update(["paid_status" => "paid"]);
         return redirect("/auction/" . $register->auction->id )->with(["success" => "Bạn đã đăng ký thành công!"]);
 
       } else {
@@ -152,6 +152,10 @@ class AuctionController extends Controller
 
   public function addFeedback($id, Request $request)
   {
+    if ($request->get("star") == null){
+      return redirect()->back()->with(["error" => "Vui lòng nhập feedback!"]);
+
+    }
     Feedback::create(["auction_id" => $id, "star" => $request->get("star")
     , "content" => $request->get("content"), "user_id" => Auth::id()]);
     return redirect()->back()->with(["success" => "Thêm feedback thành công!"]);
@@ -161,16 +165,22 @@ class AuctionController extends Controller
   {
     $bidPrice = $request->get("bid_price");
     $auction = Auction::find($id);
-    if (AuctionRegister::where("auction_id", $id)->where("user_id", Auth::id())->where("is_paid" , 1)->where("is_disable", 0)->exists())
+    $checkRegister = AuctionRegister::where("auction_id", $id)->where("user_id", Auth::id())->where("paid_status" , "paid")->where("is_disable", 0);
+    if ($checkRegister->exists())
     {
       // có tồn tại => đã đăng ký rồi
       if ($this->checkBidLegal($bidPrice, $auction->current_price, $auction->jump_price)) {
         // create bid
         $bid = Bid::create([
           "auction_id" => $id,
-          "user_id" => Auth::id(),
+          "user_id" => Auth::id(), // th đang đăng nhập
+          "status" => null,
           "bid_price" => $bidPrice,
+          "tax_price" => $this->countTaxPrice($bidPrice),
+          "remain_price" => $bidPrice - ($auction->start_price * 10/100),
+          "auction_register_id" => $checkRegister->first()->id
         ]);
+
         $auction->update(["current_price" => $bidPrice]);
         return redirect("/auction/" .$auction->id )->with(["success" => "Bạn đã đấu giá thành công!"]);
 
@@ -188,7 +198,7 @@ class AuctionController extends Controller
   {
 
     $bid = Bid::find($bidId);
-    $needPay = $bid->bid_price;
+    $needPay = $bid->tax_price + $bid->remain_price;
     $vnPayAmount = $needPay*100;
     $link =  $this->VnPAY->createLink( env("REDIRECT_PAY_REMAIN_URL") ,env("VNPAY_HASH"), env("VNPAY_TMNCODE"), $vnPayAmount,
       $request->ip(), "THANH TOAN CON LAI #" . $bid->id, 250000, Str::random(4)." REMAIN". $bid->id, Carbon::now()->addMinutes(15)->format('YmdHis'));

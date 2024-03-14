@@ -10,34 +10,75 @@
       <th scope="col">BĐS đấu</th>
       <th scope="col" class="text-center">Trạng thái</th>
       <th scope="col" class="text-center">Số tiền Bid</th>
+      <th scope="col" class="text-center">Cọc</th>
+      <th scope="col" class="text-center">Thuế</th>
+      <th scope="col" class="text-center">Còn lại</th>
       <th scope="col" class="text-center">Thanh toán</th>
     </tr>
     </thead>
     <tbody>
     @foreach($bids as $bid)
-      <tr @if($bid->is_disable == 1) style="background-color: rgba(139,0,0,0.09)" @endif>
+      <tr @if($bid->status == 'cancel') style="background-color: rgba(139,0,0,0.09)" @endif>
         <td class="text-center">#{{$bid->id}}</td>
         <td><a href="/auction/{{$bid->auction->id}}">{{$bid->auction->title}}</a></td>
         <td class="text-center">
-          @if($bid->is_disable == 0)
-             @if($bid->auction->status=="trading")
-              <span class="badge badge-warning">Đang đấu giá</span>
-            @else
-              @if($bid->status == 0)
-                <span class="badge badge-danger">Không trúng</span>
-              @endif
-              @if($bid->status == 1)
-                <span class="badge badge-success">Trúng thầu</span>
-              @endif
-            @endif
-          @else
+          @if($bid->status == null)
+            <span class="badge badge-warning">Đang đấu giá</span>
+          @endif
+          @if($bid->status == "not_won")
+            <span class="badge badge-danger">Không trúng</span>
+          @endif
+          @if($bid->status == "won")
+            <span class="badge badge-success">Trúng thầu</span>
+          @endif
+          @if($bid->status == "waiting")
+            <span class="badge badge-warning">Đợi đóng còn lại</span>
+          @endif
+          @if($bid->status == "cancel")
             <span class="badge badge-danger">Bị hủy</span>
           @endif
 
+
         </td>
         <td class="text-center">{{number_format($bid->bid_price)}}</td>
+        <td>
+          @php $depositStatus = $bid->auction_register->paid_status @endphp
+          {{showDepositStatus()[$depositStatus]}}
+        </td>
+        <td>
+          @if($bid->tax_status == null)
+            <span class="badge badge-warning">Đang đấu giá</span>
+          @endif
+          @if($bid->tax_status == "not_won")
+            <span class="badge badge-danger">Không trúng</span>
+          @endif
+          @if($bid->tax_status == "waiting")
+            <span class="badge badge-warning">Đợi thanh toán</span>
+          @endif
+
+          @if($bid->tax_status == "paid")
+            <span class="badge badge-warning">Đã thanh toán</span>
+          @endif
+
+        </td>
+        <td>
+          @if($bid->remain_status == null)
+            <span class="badge badge-warning">Đang đấu giá</span>
+          @endif
+          @if($bid->remain_status == "not_won")
+            <span class="badge badge-danger">Không trúng</span>
+          @endif
+          @if($bid->remain_status == "waiting")
+            <span class="badge badge-warning">Đợi thanh toán</span>
+          @endif
+
+          @if($bid->remain_status == "paid")
+            <span class="badge badge-warning">Đã thanh toán</span>
+          @endif
+
+        </td>
         <td class="text-center">
-          @if($bid->status == 1 && ($bid->is_disable == 0))
+          @if($bid->status == "won")
 
             <a href="/auction/{{$bid->auction->id}}/bid/{{$bid->id}}/payRemain" class="btn btn-primary text-capitalize">
               <i class="fa fa-dollar mr-1"></i>Thanh toán còn lại </a>

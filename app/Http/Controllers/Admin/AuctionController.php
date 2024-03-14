@@ -43,7 +43,7 @@ class AuctionController extends Controller
 
     if ($request->get("tab") == "bids")
     {
-      $bids = Bid::where("auction_id", $id)->get();
+      $bids = Bid::where("auction_id", $id)->orderBy("bid_price", "desc")->get();
       return view("admin.auctions.bids", compact('auction','bids'));
     }
 
@@ -78,8 +78,11 @@ class AuctionController extends Controller
 
 
 
-      // Cập nhật disable cho toàn bộ phiên cũ
+      // disable đăng ký cho toàn bộ phiên cũ
       AuctionRegister::where("auction_id", $id)->update(["is_disable" => 1]);
+
+      // cập nhật bid cũ
+      Bid::where("auction_id", $id)->update(["status" => "cancel", "tax_status" => "not_win", "remain_status" => "not_win"]);
 
 
       // cập nhật thời gian phiên

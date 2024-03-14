@@ -46,7 +46,11 @@
   <!-- FORM FILTER -->
   <div class="products__filter mb-30">
     <div class="products__filter__group">
-      @if(!\App\Models\AuctionRegister::where("user_id", Auth::id())->where("auction_id", $auction->id)->where("is_paid", 1)->where("is_disable", 0)->exists())
+      @if(!\App\Models\AuctionRegister::where("user_id", Auth::id())
+->where("auction_id", $auction->id)
+->where("paid_status", "paid")
+->where("is_disable", 0)
+->exists())
       <form method="post" action="/auction/{{$auction->id}}/register">
         @csrf
         <div class="products__filter__header">
