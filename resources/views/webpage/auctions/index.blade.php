@@ -43,11 +43,11 @@
               </div>
               <div class="col-6">
 
-                <p class="left-title-text no-margin">Phí đăng ký tham gia đấu giá:</p>
+                <p class="left-title-text no-margin">Phí cọc tham gia đấu giá:</p>
               </div>
               <div class="col-6">
 
-                <p class="right-info-text no-margin"><span class="novaticPrice registerFee">200.000</span> VNĐ</p>
+                <p class="right-info-text no-margin"><span class="novaticPrice registerFee">{{number_format($auction->start_price * 10/100)}}</span> VNĐ</p>
               </div>
               <div class="col-6">
 
