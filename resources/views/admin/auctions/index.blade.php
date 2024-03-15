@@ -156,6 +156,9 @@
               @if($auction->status == "done")
                 <span class="badge bg-label-success">Đã hoàn thành</span>
               @endif
+                @if($auction->status == "bought")
+                  <span class="badge bg-label-success">Đã có người mua ngay</span>
+                @endif
 
                 @if($auction->status == "trading")
                   <span class="badge bg-label-warning">Đang giao dịch</span>

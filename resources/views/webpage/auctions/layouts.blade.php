@@ -225,6 +225,53 @@
 @endsection
 @section("content")
   @yield("custom_body")
+  <div class="face modal" tabindex="-1" role="dialog" id="buy_modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Bạn đang mua ngay sản phẩm!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th scope="col">Tiền sản phẩm</th>
+              <th scope="col">Tiền thuế</th>
+              <th scope="col">Tổng cần trả</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td id="buy_price_now">{{number_format($auction->buy_price)}}</td>
+              <td id="tax_price_now">{{number_format(countTaxPrice($auction->start_price))}}</td>
+              <td style="font-weight: bold; color: red">{{number_format($auction->buy_price + countTaxPrice($auction->start_price))}}</td>
+            </tr>
+
+            </tbody>
+          </table>
+          {{--          <p>--}}
+          {{--            Số tiền bạn sẽ trả sau khi trúng thầu là: <span--}}
+          {{--              style="font-weight: bold; color: red;" id="after_pay">0</span>--}}
+          {{--          </p>--}}
+
+
+          <!--<p class="text-center">-->
+          <!--  <img style="width: 50%"-->
+          <!--       src="https://api.vieqr.com/vietqr/VietinBank/113366668888/10000/full.jpg?NDck=UngHoCV&FullName=Quy%20Vacxin%20Covid"-->
+          <!--       alt="">-->
+          <!--</p>-->
+        </div>
+        <div class="modal-footer">
+          <a href="/auction/{{$auction->id}}/buy" class="btn btn-primary" >Tôi đã hiểu và thanh toán</a>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Từ bỏ</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- SINGLE DETAIL -->
   <section class="single__Detail">
     <div class="container">
@@ -315,6 +362,12 @@
                              class="btn btn-primary text-capitalize btn-block text-white"> đấu giá ngay
                             <i class="fa fa-calculator ml-1"></i>
                           </a>
+                            @if($auction->buy_price > 0)
+                              <a href="javascript:void(0)" onclick="buyThis()"
+                                 class="btn btn-success text-capitalize btn-block text-white"> Mua ngay với giá {{number_format($auction->buy_price)}}
+                                <i class="fa fa-money ml-1"></i>
+                              </a>
+                              @endif
                         @else
                           <p class="text-danger">Đã hết hạn đấu giá!</p>
                         @endif
@@ -664,6 +717,11 @@
       } else {
         alert("Không đúng số tiền tối thiểu!");
       }
+    }
+
+
+    function buyThis(){
+      $("#buy_modal").modal('show')
     }
 
 

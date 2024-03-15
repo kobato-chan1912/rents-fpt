@@ -146,6 +146,10 @@
               <div class="card h-100 mb-4">
                 <div class="card-body">
                   <div class="mb-3">
+                    <label for="buy_price" class="form-label">Giá mua ngay</label>
+                    <input @if(isset($auction)) value="{{$auction->buy_price}}" @endif required type="text" class="form-control" id="buy_price" name="buy_price" placeholder="Giá mua ngay"/>
+                  </div>
+                  <div class="mb-3">
                     <label for="start_price" class="form-label">Giá khởi điểm</label>
                     <input @if(isset($auction)) value="{{$auction->start_price}}" @endif required type="text" class="form-control" id="start_price" name="start_price" placeholder="Giá khởi điểm"/>
                   </div>

@@ -14,6 +14,12 @@
         </li>
 
         <li class="nav-item" role="presentation">
+          <a type="button" href="{{Request::fullUrlWithQuery(["tab" => "buy"])}}" class="nav-link @if(Request::get("tab") == "buy") active @endif" role="tab">
+            <i class="tf-icons ti ti-shopping-bag ti-xs me-1"></i> Lịch sử mua ngay
+          </a>
+        </li>
+
+        <li class="nav-item" role="presentation">
           <a type="button" href="{{Request::fullUrlWithQuery(["tab" => "feedback"])}}" class="nav-link @if(Request::get("tab") == "feedback") active @endif" role="tab">
             <i class="tf-icons ti ti-star-filled ti-xs me-1"></i> Feedback
           </a>

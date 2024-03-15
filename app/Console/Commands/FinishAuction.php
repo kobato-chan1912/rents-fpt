@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Auction;
 use App\Models\AuctionRegister;
 use App\Models\Bid;
+use App\Models\BuyNowPayment;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 
@@ -33,6 +34,12 @@ class FinishAuction extends Command
       $auctions = Auction::where("status", "trading")->get(); // auction có 3 trạng thái: trading/processing/done
       foreach ($auctions as $auction){
         if ($auction->deadline_time <= Carbon::now()){
+
+          if (BuyNowPayment::where("auction_id", $auction->id)->where("paid_status", "paid")->exists())
+          {
+            $auction->update(["status" => "processing"]);
+          }
+
           $auction->update(["status" => "processing"]);
           $bids = $auction->bids()->where("status", null)->orderBy("bid_price", "desc");
           if ($bids->count() > 0){

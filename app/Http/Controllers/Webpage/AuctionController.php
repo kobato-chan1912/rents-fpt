@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Auction;
 use App\Models\AuctionRegister;
 use App\Models\Bid;
+use App\Models\BuyNowPayment;
 use App\Models\Feedback;
 use App\Services\VnPayService;
 use Carbon\Carbon;
@@ -255,7 +256,90 @@ class AuctionController extends Controller
   }
 
 
+  public function addBuyNow($id, Request $request)
+  {
+    $auction = Auction::find($id);
+    $price = $auction->buy_price + $this->countTaxPrice($auction->start_price);
+    $payment = BuyNowPayment::create(["auction_id" => $id, "user_id" => Auth::id(), "paid_status" => "not_paid",
+      "price" => $price]);
 
+    $vnPayAmount = $price*100;
+    $link =  $this->VnPAY->createLink( env("REDIRECT_PAY_NOW_URL") ,env("VNPAY_HASH"), env("VNPAY_TMNCODE"), $vnPayAmount,
+      $request->ip(), "THANH TOAN MUA NGAY #" . $auction->id, 250000, Str::random(4)." BUYNOW". $payment->id, Carbon::now()->addMinutes(15)->format('YmdHis'));
+
+    if ($link["code"] = '00') {
+      return redirect($link["data"]);
+    }
+
+  }
+
+  public function checkBuyNow(Request $request)
+  {
+    $txnRef = $request->get("vnp_TxnRef");
+    preg_match('/BUYNOW(\d+)/', $txnRef, $matches);
+    $buyNowId = $matches[1]; // xử lý chuỗi tìm ra mã bid
+    $buyNow = BuyNowPayment::findOrFail($buyNowId); // xử lý chuỗi tìm ra mã đăng ký
+    $auction = $buyNow->auction; // tìm ra auction
+    $vnp_SecureHash = $request->get("vnp_SecureHash");
+    $inputData = array();
+    foreach ($request->all() as $key => $value) {
+      if (substr($key, 0, 4) == "vnp_") {
+        $inputData[$key] = $value;
+      }
+    }
+    unset($inputData['vnp_SecureHash']);
+    ksort($inputData);
+    $i = 0;
+    $hashData = "";
+    foreach ($inputData as $key => $value) {
+      if ($i == 1) {
+        $hashData = $hashData . '&' . urlencode($key) . "=" . urlencode($value);
+      } else {
+        $hashData = $hashData . urlencode($key) . "=" . urlencode($value);
+        $i = 1;
+      }
+    }
+    $secureHash = hash_hmac('sha512', $hashData, env("VNPAY_HASH"));
+    if ($secureHash == $vnp_SecureHash) {
+
+      $status = $request->get("vnp_ResponseCode");
+      if ($status == "00") { // thanh toán thành công
+
+        if ($auction->status == "trading") // kiểm tra auction có đang ở trading không
+        {
+          // chuyển trạng thái đơn mua ngay về paid
+          BuyNowPayment::find($buyNowId)->update(["paid_status" => "paid"]);
+          $auction->update(["status" => "bought", "deadline_time" => Carbon::now()]);
+
+          // Tra cọc cho ai đã thanh toán cọc xong
+          AuctionRegister::where("paid_status", "paid")
+            ->where("auction_id", $auction->id)
+            ->update(["paid_status" => "refund"]);
+          $bids = $auction->bids();
+          // Cập nhật toàn bộ bid về chưa trúng
+          foreach ($bids as $bid)
+          {
+            $bid->update(["status" => "not_won", "tax_status" => "not_won", "remain_status" => "not_won"]);
+          }
+
+          return redirect("/auction/" . $auction->id )->with(["success" => "Bạn đã mua thành công!"]);
+
+        } else {
+          BuyNowPayment::find($buyNowId)->update(["paid_status" => "refund"]);
+          return redirect("/auction/" . $auction->id )->with(["error" => "Đấu giá đã kết thúc! Bạn sẽ được hoàn tiền thanh toán"]);
+        }
+
+
+
+      } else {
+        return redirect("/auction/" . $auction->id)->with(["error" => "Thanh toán thất bại!"]);
+
+      }
+
+    } else {
+      return redirect("/auction/" . $auction->id)->with(["error" => "Chữ ký không hợp lệ!"]);
+    }
+  }
 
 
 }

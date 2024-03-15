@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Auction;
 use App\Models\AuctionRegister;
 use App\Models\Bid;
+use App\Models\BuyNowPayment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,6 +52,12 @@ class AuctionController extends Controller
     if ($request->get("tab") == "feedback")
     {
       return view("admin.auctions.feedback", compact('auction'));
+    }
+
+    if ($request->get("tab") == "buy")
+    {
+      $historyBuy = BuyNowPayment::where("auction_id", $id)->orderBy("id", "desc")->where("paid_status", "!=", "not_paid")->get();
+      return view("admin.auctions.buy", compact('historyBuy', 'auction'));
     }
 
   }
