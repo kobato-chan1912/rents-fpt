@@ -345,7 +345,7 @@
                       </tr>
                       </thead>
                       <tbody>
-                      @foreach($auction->bids()->where('status', '!=', 'cancel')->orWhere('status', null)->orderBy('id', 'desc')->get() as $bid)
+                      @foreach(\App\Models\Bid::where("auction_id", $auction->id)->where('status', '!=', 'cancel')->orWhere('status', null)->orderBy('id', 'desc')->get() as $bid)
                         <tr>
                           <th scope="row">{{ $bid->user->email }}</th>
                           <td>{{ number_format($bid->bid_price) }}</td>
