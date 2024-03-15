@@ -345,12 +345,14 @@
                       </tr>
                       </thead>
                       <tbody>
-                      @foreach(\App\Models\Bid::where("auction_id", $auction->id)->where('status', '!=', 'cancel')->orWhere('status', null)->orderBy('id', 'desc')->get() as $bid)
+                      @foreach($auction->bids()->orderBy('id', 'desc')->get() as $bid)
+                        @if($bid->status !== 'cancel')
                         <tr>
                           <th scope="row">{{ $bid->user->email }}</th>
                           <td>{{ number_format($bid->bid_price) }}</td>
                           <td>{{ $bid->created_at->format('d/m/Y H:i') }}</td>
                         </tr>
+                        @endif
                       @endforeach
 
                       </tbody>
