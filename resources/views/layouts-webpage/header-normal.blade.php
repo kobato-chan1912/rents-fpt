@@ -13,22 +13,21 @@
       <div class="collapse navbar-collapse" id="main_nav99">
         <ul class="navbar-nav mx-auto ">
           <li class="nav-item dropdown">
-            <a class="nav-link" href="#" data-toggle="dropdown"> Mới nhất </a>
+            <a class="nav-link" href="#" data-toggle="dropdown"> Nhà A </a>
 
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link" href="#" data-toggle="dropdown"> Quan tâm nhất </a>
+            <a class="nav-link" href="#" data-toggle="dropdown"> Nhà S </a>
 
           </li>
 
           <li class="nav-item dropdown">
-            <a class="nav-link" href="#" data-toggle="dropdown"> Giá tốt nhất </a>
+            <a class="nav-link" href="#" data-toggle="dropdown"> Nhà M </a>
 
           </li>
 
 
         </ul>
-
 
         <!-- Search bar.// -->
         <ul class="navbar-nav ">

@@ -311,12 +311,13 @@ class AuctionController extends Controller
           BuyNowPayment::find($buyNowId)->update(["paid_status" => "paid"]);
           $auction->update(["status" => "bought", "deadline_time" => Carbon::now()]);
 
-          // Tra cọc cho ai đã thanh toán cọc xong
+          // Trả cọc cho ai đã thanh toán cọc xong
           AuctionRegister::where("paid_status", "paid")
             ->where("auction_id", $auction->id)
             ->update(["paid_status" => "refund"]);
-          $bids = $auction->bids();
+
           // Cập nhật toàn bộ bid về chưa trúng
+          $bids = $auction->bids;
           foreach ($bids as $bid)
           {
             $bid->update(["status" => "not_won", "tax_status" => "not_won", "remain_status" => "not_won"]);
