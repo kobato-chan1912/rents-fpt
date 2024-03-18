@@ -91,8 +91,43 @@
 
 </div>
 
+<div class="container">
+  <table class="table">
 
+    <h6>Lịch sử mua ngay người dùng {{Auth::user()->email}}</h6>
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col" class="text-center">Mã mua</th>
+      <th scope="col">BĐS đấu</th>
+      <th scope="col" class="text-center">Tổng cộng</th>
+      <th scope="col" class="text-center">Trạng thái</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach($historyBuy as $buy)
+      <tr>
+        <td class="text-center">#{{$buy->id}}</td>
+        <td><a href="/auction/{{$buy->auction->id}}">{{$buy->auction->title}}</a></td>
+        <td class="text-center">
+          {{number_format($buy->price)}} <br>
 
+        </td>
+        <td class="text-center">
+          @if($buy->paid_status == 'paid')
+            <span class="badge badge-success">Thành công</span>
+          @endif
+          @if($buy->paid_status == "refund")
+            <span class="badge badge-warning">Refund</span>
+          @endif
+        </td>
+
+      </tr>
+
+    @endforeach
+    </tbody>
+  </table>
+
+</div>
 
 @endsection
 @section("page-script")

@@ -39,9 +39,7 @@
                 <a href="javascript:void(0)" class="btn btn-primary text-capitalize">
                   <i class="fa fa-user mr-1"></i>Xin chào, {{Auth::user()->name}} </a>
                 <a href="/user/historyBid" class="btn btn-primary text-capitalize">
-                  <i class="fa fa-paypal mr-1"></i> Lịch sử đấu giá </a>
-                <a href="/user/historyBuy" class="btn btn-primary text-capitalize">
-                  <i class="fa fa-paypal mr-1"></i> Lịch sử mua </a>
+                  <i class="fa fa-paypal mr-1"></i> Lịch sử </a>
 
               @else
                 <a href="/admin" target="_blank" class="btn btn-primary text-capitalize">

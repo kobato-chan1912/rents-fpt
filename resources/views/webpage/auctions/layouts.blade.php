@@ -714,8 +714,13 @@
       let minValue = $("#bid_input").data("min");
       if (bidInput >= minValue){
         $("#bid_price").val(bidInput)
-        $("#calculate_modal").modal('show')
-        $("#deposit_now").html(formatPrice(bidInput))
+        if (bidInput >= {{$auction->buy_price}} ){
+          $("#buy_alert").modal('show')
+        } else {
+          $("#calculate_modal").modal('show')
+          $("#deposit_now").html(formatPrice(bidInput))
+
+        }
       } else {
         alert("Không đúng số tiền tối thiểu!");
       }

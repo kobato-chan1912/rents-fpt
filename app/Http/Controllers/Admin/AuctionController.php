@@ -45,7 +45,9 @@ class AuctionController extends Controller
     if ($request->get("tab") == "bids")
     {
       $bids = Bid::where("auction_id", $id)->orderBy("bid_price", "desc")->get();
-      return view("admin.auctions.bids", compact('auction','bids'));
+      $historyBuy = BuyNowPayment::where("auction_id", $id)->orderBy("id", "desc")->where("paid_status", "!=", "not_paid")->get();
+
+      return view("admin.auctions.bids", compact('auction','bids', 'historyBuy'));
     }
 
 

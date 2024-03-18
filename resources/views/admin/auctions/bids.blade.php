@@ -75,7 +75,8 @@
       </div>
 
 
-      <div class="row">
+      <div class="row mb-3">
+        <h6>Lịch sử đấu giá</h6>
         <div class="col-xl-12">
           <div class="card">
             <div class="card-datatable table-responsive">
@@ -167,7 +168,52 @@
           </div>
         </div>
       </div>
+      <div class="row mb-3">
+        <h6>Lịch sử mua ngay</h6>
+        <div class="col-xl-12">
+          <div class="card">
+            <div class="card-datatable table-responsive">
+              <table class="datatable table nowrap border-top">
+                <thead>
+                <tr>
+                  <th>Mã mua</th>
+                  <th>Tên</th>
+                  <th>Email</th>
+                  <th>Số tiền cần thanh toán</th>
+                  <th>Trạng thái</th>
+                  <th>Ngày mua</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($historyBuy as $buy)
+                  <tr id="{{$buy->id}}">
+                    <td>{{$buy->id}}</td>
+                    <td>{{$buy->user->name}}</td>
+                    <td>{{$buy->user->email}}</td>
+                    <td>{{number_format($buy->price)}}</td>
+                    <td>
+                      @if($buy->paid_status == "paid")
+                        <span class="badge bg-label-success">Đã thanh toán</span>
+                      @endif
+                      @if($buy->paid_status == "refund")
+                        <span class="badge bg-label-danger">Refund</span>
+                      @endif
 
+
+
+                    </td>
+
+                    <td>{{\Carbon\Carbon::parse($buy->created_at)->format('H:i d/m/Y')}}</td>
+                  </tr>
+
+                @endforeach
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
 
     </div>
 
