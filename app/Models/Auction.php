@@ -29,4 +29,33 @@ class Auction extends Model
   {
     return $this->hasMany(AutoBidSetting::class);
   }
+
+  public function scopeType($query, $request)
+  {
+    if ($request->has('type')) {
+      $query->where('type', $request->get("type"));
+    }
+
+    return $query;
+  }
+
+  public function scopeArea($query, $request)
+  {
+    if ($request->has('area')) {
+      $query->where('area', ">=", $request->get("area"));
+    }
+
+    return $query;
+  }
+
+  public function scopeCity($query, $request)
+  {
+    if ($request->has('city')) {
+      $query->where('city_id', ">=", $request->get("city"));
+    }
+
+    return $query;
+  }
+
+
 }

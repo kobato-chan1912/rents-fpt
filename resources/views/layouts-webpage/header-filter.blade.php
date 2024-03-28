@@ -110,69 +110,47 @@
                     <div class="tab-pane fade active show" id="buy" role="tabpanel"
                          aria-labelledby="buy-tab">
                       <div class=" search__container">
-                        <div class="row input-group no-gutters">
-                          <div class="col-lg-2">
-                            <select class="select_option form-control" name="select">
-                              <option selected>Loại hình</option>
-                              <option>Căn hộ</option>
-                              <option>Chung cư </option>
-                              <option>Nhà phố</option>
-                              <option>Nhà đất</option>
+                        <form action="filter">
+                          <div class="row input-group no-gutters">
+                          <div class="col-lg-3">
+                            <select class="select_option form-control" name="type">
+                              <option data-display="Chọn loại hình">Loại hình</option>
+                              <option value="apartment">Chung cư</option>
+                              <option value="mini-apartment">Chung cư mini</option>
+                              <option value="townhouse">Nhà phố</option>
+                              <option value="ground">Đất nền</option>
+
                             </select>
                           </div>
-                          <div class="col-lg-2">
-                            <select class="select_option form-control" name="select">
-                              <option data-display="Chọn diện tích">Diện tích (m2) </option>
-                              <option>50m</option>
-                              <option>100m</option>
-                              <option>200m</option>
-                              <option>300m</option>
+                          <div class="col-lg-3">
+                            <select class="select_option form-control" name="area">
+                              <option data-display="Diện tích tối thiểu">Diện tích tối thiểu </option>
+                              <option value="50">50m</option>
+                              <option value="100">100m</option>
+                              <option value="200">200m</option>
+                              <option value="300">300m</option>
 
 
                             </select>
                           </div>
-                          <div class="col-lg-2">
-                            <select class="select_option form-control" name="select">
-                              <option data-display="Số phòng ngủ">Số phòng ngủ</option>
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
-                              <option>6</option>
-                              <option>7</option>
-                              <option>8</option>
-                              <option>9</option>
-
-                            </select>
-                          </div>
-                          <div class="col-lg-2">
-                            <select class="select_option form-control" name="select">
-                              <option data-display="Số nhà tắm">Số nhà tắm</option>
-                              <option>1</option>
-                              <option>2</option>
-                              <option>3</option>
-                              <option>4</option>
-                              <option>5</option>
-
-                            </select>
-                          </div>
-                          <div class="col-lg-2">
-                            <select class="select_option form-control" name="select">
+                          <div class="col-lg-3">
+                            <select class="select_option form-control" name="city">
                               <option data-display="Thành phố">Thành phố</option>
-                              <option>Thành phố Dĩ An</option>
-                              <option>Thành phố Thuận An</option>
-                              <option>Thành phố Tân Uyên</option>
-                              <option>Thành phố Bến Cát</option>
+
+                            @foreach(\App\Models\City::all() as $city)
+                              <option value="{{$city->id}}">{{$city->name}}</option>
+                              @endforeach
+
                             </select>
                           </div>
-                          <div class="col-lg-2 input-group-append">
+                          <div class="col-lg-3 input-group-append">
                             <button class="btn btn-primary btn-block" type="submit">
                               <i class="fa fa-search"></i> <span
                                 class="ml-1 text-uppercase">Tìm kiếm</span>
                             </button>
                           </div>
                         </div>
+                        </form>
                       </div>
                     </div>
                     <div class="tab-pane fade" id="rent" role="tabpanel"

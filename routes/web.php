@@ -20,6 +20,7 @@ use App\Http\Controllers\CommentController;
 */
 
 Route::get("/", [\App\Http\Controllers\Webpage\HomeController::class, 'index'])->name("home");
+Route::get("filter", [\App\Http\Controllers\Webpage\HomeController::class, 'filter'])->name("filter");
 Route::get("/auction/checkRemain", [\App\Http\Controllers\Webpage\AuctionController::class, 'checkRemain']);
 Route::get("/auction/checkRegister", [\App\Http\Controllers\Webpage\AuctionController::class, 'checkRegister']);
 Route::get("/auction/buy_now", [\App\Http\Controllers\Webpage\AuctionController::class, 'checkBuyNow']);

@@ -12,13 +12,24 @@ class HomeController extends Controller
     //
   public function index()
   {
-    $cities = City::all();
     $newAuctions = Auction::orderBy("id", "desc")->limit(10)->get();
     $topAuctions = Auction::withCount('bids')
       ->orderByDesc('bids_count')
       ->limit(10)
       ->get();
 
-    return view("webpage.home.index", compact('cities', 'newAuctions', 'topAuctions'));
+    return view("webpage.home.index", compact('newAuctions', 'topAuctions'));
+  }
+
+  public function filter(Request $request)
+  {
+    $filterAuctions = Auction::orderBy('id', 'desc')
+      ->type($request)
+      ->area($request)
+      ->city($request)
+      ->get();
+
+    return view("webpage.home.index", compact('filterAuctions'));
+
   }
 }
