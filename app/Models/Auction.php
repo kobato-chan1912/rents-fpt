@@ -51,7 +51,7 @@ class Auction extends Model
   public function scopeCity($query, $request)
   {
     if ($request->has('city')) {
-      $query->where('city_id', ">=", $request->get("city"));
+      $query->where('city_id',  $request->get("city"));
     }
 
     return $query;
