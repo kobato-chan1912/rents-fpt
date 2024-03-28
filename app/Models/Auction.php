@@ -20,6 +20,11 @@ class Auction extends Model
       return $this->hasMany(Bid::class);
     }
 
+    public function city()
+    {
+      return $this->belongsTo(City::class);
+    }
+
   public function feedback(): \Illuminate\Database\Eloquent\Relations\HasMany
   {
     return $this->hasMany(Feedback::class);
@@ -32,7 +37,7 @@ class Auction extends Model
 
   public function scopeType($query, $request)
   {
-    if ($request->has('type')) {
+    if ($request->get('type') !== null) {
       $query->where('type', $request->get("type"));
     }
 
@@ -50,7 +55,7 @@ class Auction extends Model
 
   public function scopeCity($query, $request)
   {
-    if ($request->has('city')) {
+    if ($request->get('city') !== null) {
       $query->where('city_id',  $request->get("city"));
     }
 

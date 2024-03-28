@@ -499,7 +499,7 @@
                         <li><b>Garage:</b> {{$auction->count_garage}}</li>
                         <li><b>Diện Tích Garage:</b> {{$auction->area_garage}}m2</li>
                         <li><b>Năm Xây Dựng:</b> {{$auction->year_build}}</li>
-                        <li><b>Loại BĐS:</b> Nhà Ở Gia Đình Đầy Đủ</li>
+                        <li><b>Loại BĐS:</b> {{translatePropertyType($auction->type)}}</li>
                       </ul>
                     </div>
                   </div>

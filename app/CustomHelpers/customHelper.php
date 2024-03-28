@@ -62,4 +62,25 @@ function bidType()
   ];
 }
 
+function translatePropertyType($inputValue) {
+  switch ($inputValue) {
+    case "apartment":
+      return "Chung cư";
+      break;
+    case "mini-apartment":
+      return "Chung cư mini";
+      break;
+    case "townhouse":
+      return "Nhà phố";
+      break;
+    case "ground":
+      return "Đất nền";
+      break;
+    default:
+      return "Unknown property type";
+      break;
+  }
+}
+
+
 ?>
