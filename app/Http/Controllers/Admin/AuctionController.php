@@ -82,9 +82,14 @@ class AuctionController extends Controller
   public function resetAuction($id, Request $request)
   {
       $time = $request->get("time");
+      if (Carbon::parse($time) < Carbon::now()){
+        return redirect()->back()->with(["error" => "Vui lòng không reset thời gian quá gần!"]);
+      }
+
+
       $formatTime = Carbon::parse($time)->format('d/m/Y H:i');
       $auction = Auction::find($id);
-
+      $current_price = $auction->current_price;
 
 
       // disable đăng ký cho toàn bộ phiên cũ
@@ -95,7 +100,8 @@ class AuctionController extends Controller
 
 
       // cập nhật thời gian phiên
-      $auction->update(["deadline_time" => $time, "status" => "trading"]);
+      $auction->update(["deadline_time" => $time, "status" => "trading",
+        "current_price" => $current_price]);
 
       return redirect()->back()->with(["success" => "Phiên đã được reset về "  . $formatTime]);
   }

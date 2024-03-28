@@ -7,6 +7,7 @@
     <thead class="thead-dark">
     <tr>
       <th scope="col" class="text-center">Mã đấu giá</th>
+      <th scope="col" class="text-center">Loại</th>
       <th scope="col">BĐS đấu</th>
       <th scope="col" class="text-center">Trạng thái</th>
       <th scope="col" class="text-center">Số tiền Bid</th>
@@ -20,6 +21,7 @@
     @foreach($bids as $bid)
       <tr @if($bid->status == 'cancel') style="background-color: rgba(139,0,0,0.09)" @endif>
         <td class="text-center">#{{$bid->id}}</td>
+        <td class="text-center">{{bidType()[$bid->type]}}</td>
         <td><a href="/auction/{{$bid->auction->id}}">{{$bid->auction->title}}</a></td>
         <td class="text-center">
           @if($bid->status == null)

@@ -54,4 +54,12 @@ function showBidStatus()
   ];
 }
 
+function bidType()
+{
+  return [
+    "manual" => "Thủ công",
+    "auto" => "Tự động"
+  ];
+}
+
 ?>

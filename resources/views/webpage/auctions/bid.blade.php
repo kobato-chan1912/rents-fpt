@@ -236,9 +236,16 @@
 
 
         <div class="form-group mb-0">
-          <button class="btn btn-primary text-capitalize btn-block" onclick="autoBid()"> đấu giá tự động
-            <i class="fa fa-share ml-1"></i>
-          </button>
+          @if(\App\Models\AutoBidSetting::where("user_id", Auth::id())->where("auction_id", $auction->id)->exists())
+            <a href="/auction/{{$auction->id}}/cancelAuto" class="btn btn-danger text-capitalize text-white btn-block"> Hủy đấu giá tự động
+              <i class="fa fa-share ml-1"></i>
+            </a>
+
+          @else
+            <button class="btn btn-primary text-capitalize btn-block" onclick="autoBid()"> đấu giá tự động
+              <i class="fa fa-share ml-1"></i>
+            </button>
+          @endif
 
         </div>
       </div>

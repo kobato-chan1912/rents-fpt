@@ -85,6 +85,7 @@
                 <tr>
                   <th>id</th>
                   <th>Tên</th>
+                  <th>Loại</th>
                   <th>Email</th>
                   <th>Giá đấu</th>
                   <th>Trạng thái</th>
@@ -101,6 +102,7 @@
                   <tr id="{{$bid->id}}" @if($bid->status == "cancel") style="background-color: rgba(255,4,4,0.07)" @endif>
                     <td>{{$bid->id}}</td>
                     <td>{{$bid->user->name}}</td>
+                    <td>{{bidType()[$bid->type]}}</td>
                     <td>{{$bid->user->email}}</td>
                     <td>{{number_format($bid->bid_price)}}</td>
                     <td>

@@ -33,7 +33,7 @@ Route::post("/auction/{id}/addAutoBid", [\App\Http\Controllers\Webpage\AuctionCo
 Route::get("/auction/{id}/bid/{bidId}/payRemain", [\App\Http\Controllers\Webpage\AuctionController::class, 'donePay'])->middleware(["auth", "user"]);;
 Route::get("/user/historyBid", [\App\Http\Controllers\Webpage\UserController::class, 'historyBid'])->middleware(["auth", "user"]);;
 Route::get("/user/historyBuy", [\App\Http\Controllers\Webpage\UserController::class, 'historyBuy'])->middleware(["auth", "user"]);;
-
+Route::get("/auction/{id}/cancelAuto", [\App\Http\Controllers\Webpage\AuctionController::class, 'cancelAuto']);
 
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])
   ->middleware('guest')
@@ -41,6 +41,11 @@ Route::get('/login', [AuthenticatedSessionController::class, 'create'])
 
 Route::post('/login', [AuthenticatedSessionController::class, 'store'])
   ->middleware('guest');
+
+
+
+Route::get("/dang-ky", [\App\Http\Controllers\Webpage\RegisterController::class, 'index']);
+Route::post("/dang-ky", [\App\Http\Controllers\Webpage\RegisterController::class, 'register']);
 
 Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth']], function () {
   \UniSharp\LaravelFilemanager\Lfm::routes();

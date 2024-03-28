@@ -365,4 +365,11 @@ class AuctionController extends Controller
     return redirect()->back()->with(["success" => "Tạo đấu giá tự động thành công!"]);
   }
 
+  public function cancelAuto($id)
+  {
+    AutoBidSetting::where("user_id", Auth::id())->where("auction_id", $id)->delete();
+    return redirect()->back()->with(["success" => "Hủy đấu giá tự động thành công!"]);
+
+  }
+
 }

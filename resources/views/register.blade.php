@@ -9,7 +9,7 @@
   <meta name="description" content="Rethouse - Real Estate HTML Template">
   <meta name="keywords" content="Real Estate, Property, Directory Listing, Marketing, Agency" />
   <meta name="author" content="mardianto - retenvi.com">
-  <title>Đăng nhập</title>
+  <title>Đăng ký</title>
 
   <!-- Facebook and Twitter integration -->
   <meta property="og:title" content="" />
@@ -103,7 +103,7 @@
       <div class="container">
         <div class="row d-flex justify-content-center">
           <div class="col-md-8 text-center">
-            <h2 class="text-capitalize text-white">Trang đăng nhập</h2>
+            <h2 class="text-capitalize text-white">Trang đăng ký</h2>
 
           </div>
         </div>
@@ -122,28 +122,33 @@
         <!-- Form Login -->
         <div class="card mx-auto" style="max-width: 380px;">
           <div class="card-body">
-            <h4 class="card-title mb-4">Đăng nhập</h4>
-            <form action="/login" method="post">
+            <h4 class="card-title mb-4">Đăng ký</h4>
+            <form action="" method="post">
               @csrf
-              @if ($errors->any())
-                @foreach ($errors->all() as $error)
-                  <p class="text-danger">{{$error}}</p>
-                @endforeach
+              @if(Session::has("error"))
+                <p class="text-danger">{{Session::get("error")}}</p>
               @endif
-              @if(Session::has("success"))
-                <p class="text-success">{{Session::get("success")}}</p>
-              @endif
+              <div class="form-group">
+                <select class="form-select form-control" name="role">
+                  <option value="1">Staff</option>
+                  <option value="2">User</option>
+                </select>
+              </div> <!-- form-group// -->
               <div class="form-group">
                 <input class="form-control" placeholder="Email" name="email" required type="email">
               </div> <!-- form-group// -->
               <div class="form-group">
+                <input class="form-control" placeholder="Tên" name="name" required type="text">
+              </div> <!-- form-group// -->
+              <div class="form-group">
                 <input class="form-control" placeholder="Password" name="password" required type="password">
               </div> <!-- form-group// -->
-
               <div class="form-group">
-                <button type="submit" class="btn mb-3 btn-primary btn-block"> Đăng nhập </button>
-                <a href="/dang-ky">Đăng ký</a>
-
+                <input class="form-control" placeholder="Xác nhận mật khẩu" name="confirm_password" required type="password">
+              </div> <!-- form-group// -->
+              <div class="form-group">
+                <button type="submit" class="btn mb-3 btn-primary btn-block"> Đăng ký </button>
+                <a href="/login">Đăng nhập</a>
               </div> <!-- form-group// -->
             </form>
           </div> <!-- card-body.// -->

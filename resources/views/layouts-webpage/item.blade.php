@@ -34,8 +34,11 @@
          $formatTime =  $interval->format(join(' ', $format));
         @endphp
 
-
+        @if($auction->status == "trading")
         <div class="info"> Còn {{$formatTime}}</div>
+          @else
+            <div class="info"> Đã kết thúc </div>
+        @endif
       </div>
       <div class="card__image-body">
         <h6 class="text-capitalize">

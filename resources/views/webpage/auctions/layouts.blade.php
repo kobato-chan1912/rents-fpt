@@ -272,6 +272,75 @@
     </div>
   </div>
 
+  <div class="face modal" tabindex="-1" role="dialog" id="vat_modal">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Bảng VAT</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table table-bordered">
+            <thead>
+            <tr>
+              <th>Số tiền</th>
+              <th>VAT</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td>Dưới 1 tỉ</td>
+              <td>4%</td>
+            </tr>
+            <tr>
+              <td>Từ 1 tỉ đến 3 tỉ</td>
+              <td>3%</td>
+            </tr>
+            <tr>
+              <td>Từ 3 tỉ đến 5 tỉ</td>
+              <td>2.5%</td>
+            </tr>
+            <tr>
+              <td>Từ 5 tỉ đến 10 tỉ</td>
+              <td>2.25%</td>
+            </tr>
+            <tr>
+              <td>Từ 10 tỉ đến 15 tỉ</td>
+              <td>2%</td>
+            </tr>
+            <tr>
+              <td>Từ 15 tỉ đến 25 tỉ</td>
+              <td>1.75%</td>
+            </tr>
+            <tr>
+              <td>Từ 25 tỉ đến 35 tỉ</td>
+              <td>1.5%</td>
+            </tr>
+            <tr>
+              <td>Từ 35 tỉ đến 45 tỉ</td>
+              <td>1%</td>
+            </tr>
+            <tr>
+              <td>Từ 45 tỉ đến 60 tỉ</td>
+              <td>0.75%</td>
+            </tr>
+            <tr>
+              <td>Trên 60 tỉ</td>
+              <td>0.5%</td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">Đã hiểu</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- SINGLE DETAIL -->
   <section class="single__Detail">
     <div class="container">
@@ -342,6 +411,7 @@
                         <th scope="col">Tài khoản</th>
                         <th scope="col">Giá đặt</th>
                         <th scope="col">Thời gian</th>
+                        <th scope="col">Loại</th>
                       </tr>
                       </thead>
                       <tbody>
@@ -351,6 +421,7 @@
                           <th scope="row">{{ $bid->user->email }}</th>
                           <td>{{ number_format($bid->bid_price) }}</td>
                           <td>{{ $bid->created_at->format('d/m/Y H:i') }}</td>
+                          <td>{{bidType()[$bid->type]}}</td>
                         </tr>
                         @endif
                       @endforeach
@@ -370,6 +441,10 @@
                                 <i class="fa fa-money ml-1"></i>
                               </a>
                               @endif
+                          <a href="javascript:void(0)"
+                             class="btn btn-info text-capitalize btn-block text-white" onclick="vatPopup()"> Điều khoản VAT
+                            <i class="fa fa-info ml-1"></i>
+                          </a>
                         @else
                           <p class="text-danger">Đã hết hạn đấu giá!</p>
                         @endif
@@ -734,6 +809,10 @@
 
     function buyThis(){
       $("#buy_modal").modal('show')
+    }
+
+    function vatPopup(){
+      $("#vat_modal").modal('show')
     }
 
 
