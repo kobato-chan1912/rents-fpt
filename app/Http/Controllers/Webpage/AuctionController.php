@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Webpage;
 use App\Http\Controllers\Controller;
 use App\Models\Auction;
 use App\Models\AuctionRegister;
+use App\Models\AutoBidSetting;
 use App\Models\Bid;
 use App\Models\BuyNowPayment;
 use App\Models\Feedback;
@@ -342,5 +343,26 @@ class AuctionController extends Controller
     }
   }
 
+
+  // auto tool
+
+  public function addAutoBid($id, Request $request)
+  {
+    $auction = Auction::find($id);
+    $maxPrice = str_replace(',', '', $request->get("max_price"));
+    if ($maxPrice >= $auction->buy_price){
+      return redirect()->back()->with(["error" => "Bạn không thể cài đặt lớn hơn giá mua ngay!"]);
+    }
+
+    if ($maxPrice <= $auction->current_price){
+      return redirect()->back()->with(["error" => "Bạn phải cài đặt lớn hơn giá hiện tại!"]);
+    }
+
+    $autoBid = AutoBidSetting::updateOrCreate([
+      "user_id" => Auth::id(),
+      "auction_id"=> $id,
+    ], ["max_price" => $maxPrice]);
+    return redirect()->back()->with(["success" => "Tạo đấu giá tự động thành công!"]);
+  }
 
 }

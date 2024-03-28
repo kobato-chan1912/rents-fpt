@@ -23,4 +23,6 @@ class Bid extends Model
     return $this->belongsTo(AuctionRegister::class);
   }
 
+
+
 }

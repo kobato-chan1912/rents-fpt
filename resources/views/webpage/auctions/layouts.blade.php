@@ -699,7 +699,7 @@
     function parseCurrency(val) {
       return parseInt(val.replace(/,/g, ''));
     }
-    $(document).on('keyup blur', '#bid_input', function () {
+    $(document).on('keyup blur', '.money', function () {
       formatCurrency($(this), $(this).is(':focus') ? 'keyup' : 'blur');
     });
 
@@ -724,6 +724,11 @@
       } else {
         alert("Không đúng số tiền tối thiểu!");
       }
+    }
+
+    function autoBid()
+    {
+      $("#auto_bid_modal").modal('show')
     }
 
 

@@ -24,4 +24,9 @@ class Auction extends Model
   {
     return $this->hasMany(Feedback::class);
   }
+
+  public function auto_bid_settings(): \Illuminate\Database\Eloquent\Relations\HasMany
+  {
+    return $this->hasMany(AutoBidSetting::class);
+  }
 }

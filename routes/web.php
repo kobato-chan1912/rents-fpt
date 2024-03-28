@@ -29,6 +29,7 @@ Route::get("/auction/{id}/buy", [\App\Http\Controllers\Webpage\AuctionController
 Route::post("/auction/{id}/feedback", [\App\Http\Controllers\Webpage\AuctionController::class, 'addFeedback'])->middleware(["auth", "user"]);;
 Route::post("/auction/{id}/register", [\App\Http\Controllers\Webpage\AuctionController::class, 'register'])->middleware(["auth", "user"]);;
 Route::post("/auction/{id}/addBid", [\App\Http\Controllers\Webpage\AuctionController::class, 'addBid'])->middleware(["auth", "user"]);
+Route::post("/auction/{id}/addAutoBid", [\App\Http\Controllers\Webpage\AuctionController::class, 'addAutoBid'])->middleware(["auth", "user"]);
 Route::get("/auction/{id}/bid/{bidId}/payRemain", [\App\Http\Controllers\Webpage\AuctionController::class, 'donePay'])->middleware(["auth", "user"]);;
 Route::get("/user/historyBid", [\App\Http\Controllers\Webpage\UserController::class, 'historyBid'])->middleware(["auth", "user"]);;
 Route::get("/user/historyBuy", [\App\Http\Controllers\Webpage\UserController::class, 'historyBuy'])->middleware(["auth", "user"]);;
