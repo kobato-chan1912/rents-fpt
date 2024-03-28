@@ -89,7 +89,7 @@ class AuctionController extends Controller
 
       $formatTime = Carbon::parse($time)->format('d/m/Y H:i');
       $auction = Auction::find($id);
-      $current_price = $auction->current_price;
+      $current_price = $auction->start_price;
 
 
       // disable đăng ký cho toàn bộ phiên cũ
