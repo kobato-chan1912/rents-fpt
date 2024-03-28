@@ -114,6 +114,7 @@
                           <div class="row input-group no-gutters">
                           <div class="col-lg-3">
                             <select class="select_option form-control" name="type">
+                              <option value="">Loại hình</option>
                               <option value="apartment">Chung cư</option>
                               <option value="mini-apartment">Chung cư mini</option>
                               <option value="townhouse">Nhà phố</option>
@@ -123,6 +124,7 @@
                           </div>
                           <div class="col-lg-3">
                             <select class="select_option form-control" name="area">
+                              <option value="">Diện tích tối thiểu</option>
                               <option value="50">50m</option>
                               <option value="100">100m</option>
                               <option value="200">200m</option>
@@ -133,7 +135,7 @@
                           </div>
                           <div class="col-lg-3">
                             <select class="select_option form-control" name="city">
-
+                              <option value="">Chọn thành phố</option>
                             @foreach(\App\Models\City::all() as $city)
                               <option value="{{$city->id}}">{{$city->name}}</option>
                               @endforeach

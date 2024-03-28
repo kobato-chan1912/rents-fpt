@@ -41,7 +41,7 @@ class Auction extends Model
 
   public function scopeArea($query, $request)
   {
-    if ($request->has('area')) {
+    if ($request->get('area') > 0) {
       $query->where('area', ">=", $request->get("area"));
     }
 
