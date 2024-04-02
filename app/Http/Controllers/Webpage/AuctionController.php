@@ -56,6 +56,11 @@ class AuctionController extends Controller
     $startTime = \Carbon\Carbon::now();
     $endTime = \Carbon\Carbon::parse($auction->deadline_time);
     $interval = $startTime->diff($endTime);
+
+    //
+
+
+
     return compact('auction', 'galleries', 'interval', 'stars');
   }
 
@@ -77,7 +82,7 @@ class AuctionController extends Controller
   public function register($id, Request $request)
   {
     $auction = Auction::where("status", "trading")->findOrFail($id);
-    $needPay = $auction->start_price * 10/100; // + VAT
+    $needPay = $auction->start_price * 1/100; // + VAT
     $register = AuctionRegister::create([
       "auction_id" =>$id,
       "user_id" => Auth::id(),
@@ -179,7 +184,7 @@ class AuctionController extends Controller
           "status" => null,
           "bid_price" => $bidPrice,
           "tax_price" => $this->countTaxPrice($bidPrice),
-          "remain_price" => $bidPrice - ($auction->start_price * 10/100),
+          "remain_price" => $bidPrice - ($auction->start_price * 1/100),
           "auction_register_id" => $checkRegister->first()->id
         ]);
 
@@ -309,8 +314,8 @@ class AuctionController extends Controller
         if ($auction->status == "trading") // kiểm tra auction có đang ở trading không
         {
           // chuyển trạng thái đơn mua ngay về paid
-          BuyNowPayment::find($buyNowId)->update(["paid_status" => "paid"]);
-          $auction->update(["status" => "bought", "deadline_time" => Carbon::now()]);
+          $buyNow = BuyNowPayment::find($buyNowId)->update(["paid_status" => "paid"]);
+          $auction->update(["status" => "bought", "buy_win_id" => $buyNowId , "deadline_time" => Carbon::now(), "winner_id" => $buyNow->user_id]);
 
           // Trả cọc cho ai đã thanh toán cọc xong
           AuctionRegister::where("paid_status", "paid")

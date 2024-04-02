@@ -31,11 +31,11 @@
     <button type="submit" onclick="window.location.href='/admin/auctions'" class="btn btn-secondary me-sm-3 me-1 data-submit waves-effect waves-light">
 
       <i class="tf-icons ti ti-arrow-left ti-xs me-1"></i>Quay lại</button>
-    @if(Request::get("tab") == "bids")
-      <button type="submit" data-bs-target="#resetModal" data-bs-toggle="modal" class="btn btn-danger me-sm-3 me-1 data-submit waves-effect waves-light">
+{{--    @if(Request::get("tab") == "bids")--}}
+{{--      <button type="submit" data-bs-target="#resetModal" data-bs-toggle="modal" class="btn btn-danger me-sm-3 me-1 data-submit waves-effect waves-light">--}}
 
-        <i class="tf-icons ti ti-restore ti-xs me-1"></i>Reset Phiên</button>
-    @endif
+{{--        <i class="tf-icons ti ti-restore ti-xs me-1"></i>Reset Phiên</button>--}}
+{{--    @endif--}}
 
 
   </div>

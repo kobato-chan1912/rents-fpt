@@ -15,6 +15,11 @@ class Auction extends Model
       return $this->belongsTo(User::class);
     }
 
+  public function winner(): \Illuminate\Database\Eloquent\Relations\belongsTo
+  {
+    return $this->belongsTo(User::class, "winner_id");
+  }
+
     public function bids()
     {
       return $this->hasMany(Bid::class);

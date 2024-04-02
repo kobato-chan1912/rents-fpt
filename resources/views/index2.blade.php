@@ -254,7 +254,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <p>Để đấu giá, bạn sẽ thanh toán khoản phí là 10% cọc.</p>
+        <p>Để đấu giá, bạn sẽ thanh toán khoản phí là 1% cọc.</p>
         <p>Nếu bạn trúng thầu, bạn sẽ thanh toán thêm tiền phí cho app như bên dưới và 90% số tiền còn lại.
         </p>
         <p>Nếu bạn không trúng thầu, bạn sẽ được hoàn lại tiền cọc.</p>

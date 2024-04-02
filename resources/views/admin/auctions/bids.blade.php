@@ -98,6 +98,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                  @php
+                        $userDepositPrinted = [];
+                  @endphp
                 @foreach($bids as $bid)
                   <tr id="{{$bid->id}}" @if($bid->status == "cancel") style="background-color: rgba(255,4,4,0.07)" @endif>
                     <td>{{$bid->id}}</td>
@@ -125,8 +128,11 @@
 
                     </td>
                     <td>
-                      @php $depositStatus = $bid->auction_register->paid_status @endphp
+                      @if(!in_array($bid->user_id, $userDepositPrinted))
+                      @php $depositStatus = $bid->auction_register->paid_status;  @endphp
                       {{showDepositStatus()[$depositStatus]}} ({{number_format($bid->auction_register->price)}})
+                        @php $userDepositPrinted[] = $bid->user_id @endphp
+                      @endif
                     </td>
                     <td>{{number_format($bid->tax_price)}}</td>
                     <td>{{number_format($bid->remain_price)}}</td>

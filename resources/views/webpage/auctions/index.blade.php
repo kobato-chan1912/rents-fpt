@@ -47,7 +47,7 @@
               </div>
               <div class="col-6">
 
-                <p class="right-info-text no-margin"><span class="novaticPrice registerFee">{{number_format($auction->start_price * 10/100)}}</span> VNĐ</p>
+                <p class="right-info-text no-margin"><span class="novaticPrice registerFee">{{number_format($auction->start_price * 1/100)}}</span> VNĐ</p>
               </div>
               <div class="col-6">
 
@@ -135,5 +135,16 @@
     </div>
   </div>
   <!-- END FILTER -->
+
+@endsection
+@section("custom-js")
+  @if($auction->status == "trading")
+
+    <script>
+      setTimeout(function(){
+        window.location.reload();
+      }, 3000);
+    </script>
+  @endif
 
 @endsection

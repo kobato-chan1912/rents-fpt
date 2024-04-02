@@ -35,16 +35,17 @@ class FinishAuction extends Command
       foreach ($auctions as $auction){
         if ($auction->deadline_time <= Carbon::now()){
 
-          if (BuyNowPayment::where("auction_id", $auction->id)->where("paid_status", "paid")->exists())
-          {
-            $auction->update(["status" => "processing"]);
-          }
-
+//          if (BuyNowPayment::where("auction_id", $auction->id)->where("paid_status", "paid")->exists())
+//          {
+//            $auction->update(["status" => "bought"]);
+//          }
           $auction->update(["status" => "processing"]);
+
           $bids = $auction->bids()->where("status", null)->orderBy("bid_price", "desc");
           if ($bids->count() > 0){
             $winBid = $bids->first();
             $winBid->update(["status" => "won", "tax_status" => "waiting", "remain_status" => "waiting"]); // đợi thanh toán còn lại
+            $auction->update(["winner_id" => $winBid->user_id, "bid_win_id" => $winBid->id]);
             $notWins = $auction->bids()->where("status", null)->get();
             foreach ($notWins as $notWin){
               $notWin->update(["status" => "not_won", "tax_status" => "not_won", "remain_status" => "not_won"]);
