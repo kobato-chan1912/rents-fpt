@@ -52,13 +52,13 @@
         },
         // Buttons with Dropdown
         buttons: [
-          // {
-          //   text: '<i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span class="d-none d-sm-inline-block">Thêm</span>',
-          //   className: 'add-new btn btn-primary mx-3',
-          //   attr: {
-          //     'onclick' : 'window.location.href="/admin/auctions/create"'
-          //   }
-          // }
+          {
+            text: '<i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span class="d-none d-sm-inline-block">Thêm</span>',
+            className: 'add-new btn btn-primary mx-3',
+            attr: {
+              'onclick' : 'window.location.href="/admin/real_estate/create"'
+            }
+          }
         ],
 
 
@@ -74,7 +74,7 @@
     function deleteEle(element) {
       let id = element.data("id");
       let title = "Thao tác không thể hoàn tác!"
-      let name = "Auction " + element.data("name") + " sẽ bị xóa!";
+      let name = "BĐS " + element.data("name") + " sẽ bị xóa!";
       Swal.fire({
         title: title,
         icon: 'warning',
@@ -133,46 +133,32 @@
         <thead>
         <tr>
           <th>id</th>
-          <th>Tiêu đề</th>
-          <th>Giá khởi điểm</th>
-          <th>Số người đấu giá</th>
-          <th>Giá hiện tại</th>
-          <th>Ngày kết thúc</th>
-          <th>Trạng thái</th>
+          <th>Tên BĐS</th>
+          <th>Địa chỉ</th>
           <th>Ngày tạo</th>
+          <th></th>
         </tr>
         </thead>
         <tbody>
         @foreach($auctions as $auction)
           <tr id="{{$auction->id}}">
             <td>{{$auction->id}}</td>
-            <td><a href="/admin/auctions/{{$auction->id}}?tab=info">{{$auction->title}} </a></td>
-            <td>{{number_format($auction->start_price)}} </td>
-            <td>{{$auction->bids->count()}}</td>
-            <td>{{number_format($auction->current_price)}} </td>
-            <td>{{ $auction->deadline_time }} </td>
-            <td>
-              @if($auction->status == "done")
-                <span class="badge bg-label-success">Đã hoàn thành</span>
-              @endif
-                @if($auction->status == "bought")
-                  <span class="badge bg-label-success">Đã có người mua ngay</span>
-                @endif
-
-                @if($auction->status == "trading")
-                  <span class="badge bg-label-warning">Đang giao dịch</span>
-                @endif
-
-                @if($auction->status == "processing")
-                  <span class="badge bg-label-info">Đang xử lý</span>
-                @endif
-
-                @if($auction->status == "cancel")
-                  <span class="badge bg-label-danger">Hủy bỏ</span>
-                @endif
-
-            </td>
+            <td>{{$auction->title}} </td>
+            <td>{{$auction->address}} </td>
             <td>{{\Carbon\Carbon::parse($auction->created_at)->format('H:i d/m/Y')}}</td>
+            <td>
+              <div class="d-flex align-items-center">
+                <a href="/admin/real_estate/{{$auction->id}}" class="text-body delete-record">
+                  <i class="ti ti-edit ti-sm">
+                  </i>
+                </a>
+                <a href="javascript:void(0)" onclick="deleteEle($(this))" data-id="{{$auction->id}}" data-name="{{$auction->title}}" class="text-body delete-record">
+                  <i class="ti ti-trash ti-sm mx-2">
+                  </i>
+                </a>
+
+              </div>
+            </td>
           </tr>
 
         @endforeach

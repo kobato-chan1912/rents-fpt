@@ -80,11 +80,17 @@ Route::prefix("/admin")->middleware(['auth'])->group(function () {
   Route::prefix("/")->middleware(['staff'])->group(function () {
     Route::get("/auctions", [\App\Http\Controllers\Admin\AuctionController::class, 'index'])->name("admin.auctions.index");
     Route::get("/auctions/create", [\App\Http\Controllers\Admin\AuctionController::class, 'createForm']);
-    Route::post("/auctions", [\App\Http\Controllers\Admin\AuctionController::class, 'create']);
     Route::delete("/auctions/{id}", [\App\Http\Controllers\Admin\AuctionController::class, 'delete']);
     Route::get("/auctions/{id}", [\App\Http\Controllers\Admin\AuctionController::class, 'editForm']);
     Route::post("/auctions/{id}", [\App\Http\Controllers\Admin\AuctionController::class, 'edit']);
     Route::post("/auctions/{id}/reset", [\App\Http\Controllers\Admin\AuctionController::class, 'resetAuction']);
+
+
+    Route::get("/real_estate", [\App\Http\Controllers\Admin\RealEstateController::class, 'index'])->name("admin.real_estate.index");
+    Route::post("/real_estate", [\App\Http\Controllers\Admin\RealEstateController::class, 'create']);
+    Route::get("/real_estate/create", [\App\Http\Controllers\Admin\RealEstateController::class, 'createForm']);
+    Route::get("/real_estate/{id}", [\App\Http\Controllers\Admin\RealEstateController::class, 'editForm']);
+    Route::post("/real_estate/{id}", [\App\Http\Controllers\Admin\RealEstateController::class, 'edit']);
 
   });
 

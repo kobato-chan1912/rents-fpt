@@ -12,8 +12,8 @@ class HomeController extends Controller
     //
   public function index()
   {
-    $newAuctions = Auction::orderBy("id", "desc")->limit(10)->get();
-    $topAuctions = Auction::withCount('bids')
+    $newAuctions = Auction::where("status", "!=", null)->orderBy("id", "desc")->limit(10)->get();
+    $topAuctions = Auction::where("status", "!=", null)->withCount('bids')
       ->orderByDesc('bids_count')
       ->limit(10)
       ->get();
@@ -24,6 +24,7 @@ class HomeController extends Controller
   public function filter(Request $request)
   {
     $filterAuctions = Auction::orderBy('id', 'desc')
+      ->where("status", "!=", null)
       ->type($request)
       ->area($request)
       ->city($request)

@@ -25,14 +25,6 @@ class AuctionController extends Controller
     return view("admin.auctions.form");
   }
 
-  public function create(Request $request)
-  {
-    $data = $request->all();
-    $data["user_id"] = Auth::id();
-    $data["current_price"] = $request->get("start_price");
-    Auction::create($data);
-    return redirect("/admin/auctions")->with(["success" => "Tạo đấu giá thành công!"]);
-  }
 
   public function editForm($id, Request $request)
   {
@@ -66,9 +58,17 @@ class AuctionController extends Controller
 
   public function edit($id, Request $request)
   {
+    $statusDaugia = 0;
     $data = $request->all();
+    if ($request->get("start_price") > 0){
+      $data["status"] = "trading";
+      $statusDaugia = 1;
+    }
     Auction::find($id)->update($data);
-    return redirect()->back()->with(["success" => "Cập nhật thành công!"]);
+    if ($statusDaugia == 1){
+      return redirect("/admin/auctions")->with(["success" => "Tạo đấu giá thành công!"]);
+    }
+    return redirect("/admin/auctions")->with(["success" => "Lưu đấu giá thành công!"]);
 
   }
 

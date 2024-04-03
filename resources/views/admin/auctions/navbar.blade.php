@@ -4,7 +4,7 @@
       <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item" role="presentation">
           <a type="button" href="{{Request::fullUrlWithQuery(["tab" => "info"])}}" class="nav-link @if(Request::get("tab") == "info") active @endif">
-            <i class="tf-icons ti ti-info-circle ti-xs me-1"></i> Thông tin BĐS
+            <i class="tf-icons ti ti-info-circle ti-xs me-1"></i> Thông tin đấu giá
           </a>
         </li>
         <li class="nav-item" role="presentation">
