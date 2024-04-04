@@ -57,7 +57,14 @@
 
     });
 
-
+    $("form").on('submit', function (e){
+        let start_price = $("#start_price")
+        let buy_price = $("#buy_price")
+        if (start_price >= buy_price){
+          e.preventDefault()
+          alert("Giá mua ngay phải lớn hơn giá khởi điểm!")
+        }
+    });
 
 
   </script>

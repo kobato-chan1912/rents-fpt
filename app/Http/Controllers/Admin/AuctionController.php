@@ -68,6 +68,10 @@ class AuctionController extends Controller
   public function edit($id, Request $request)
   {
     $data = $request->all();
+    $auction = Auction::find($id);
+    if ($auction->bids->count() == 0){
+      $data["current_price"] = $data["start_price"];
+    }
     Auction::find($id)->update($data);
     return redirect()->back()->with(["success" => "Cập nhật thành công!"]);
 
