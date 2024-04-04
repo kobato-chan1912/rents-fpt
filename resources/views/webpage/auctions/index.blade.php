@@ -1,150 +1,198 @@
-@extends("webpage.auctions.layouts")
-@section("right_side")
+@extends('layouts/layoutMaster')
 
-  <!-- FORM FILTER -->
-  <div class="products__filter mb-30">
-    <div class="profile__agent">
-      <div class="profile__agent__group">
+@section('title', 'Quản lý đấu giá')
 
-        <div class="profile__agent__header">
-          <div class="profile__agent__header-avatar">
-
-            <div class="row" style="">
-              <div class="col-6">
-                <p class="left-title-text no-margin">Mã tài sản:</p>
-              </div>
-              <div class="col-6">
-                <p class="right-info-text no-margin">#{{$auction->id}}</p>
-              </div>
-
-              <div class="col-6">
-
-                <p class="left-title-text no-margin">Thời gian mở đăng ký:</p>
-              </div>
-              <div class="col-6">
-
-                <p class="right-info-text no-margin">{{\Carbon\Carbon::parse($auction->created_at)->format('d/m/Y H:i')}}</p>
-              </div>
-              <div class="col-6">
-
-                <p class="left-title-text no-margin">Thời gian kết thúc đăng ký:</p>
-              </div>
-              <div class="col-6">
-
-                <p class="right-info-text no-margin">{{\Carbon\Carbon::parse($auction->deadline_time)->format('d/m/Y H:i')}}</p>
-              </div>
-              <div class="col-6">
-
-                <p class="left-title-text no-margin">Giá khởi điểm:</p>
-              </div>
-              <div class="col-6">
-
-                <p class="right-info-text no-margin"><span class="novaticPrice openningPrice">{{number_format($auction->start_price)}}</span> <span class="unitPrice"> VNĐ</span></p>
-              </div>
-              <div class="col-6">
-
-                <p class="left-title-text no-margin">Phí cọc tham gia đấu giá:</p>
-              </div>
-              <div class="col-6">
-
-                <p class="right-info-text no-margin"><span class="novaticPrice registerFee">{{number_format($auction->start_price * 1/100)}}</span> VNĐ</p>
-              </div>
-              <div class="col-6">
-
-                <p class="left-title-text no-margin">Bước giá:</p>
-              </div>
-              <div class="col-6">
-                <p class="right-info-text no-margin"><span class="novaticPrice step-price">{{number_format($auction->jump_price)}}</span> <span class="unitPrice"> VNĐ</span></p>
-              </div>
-
-              <div class="col-6">
-
-                <p class="left-title-text no-margin">Phương thức đấu giá:</p>
-              </div>
-              <div class="col-6">
-                <p class="right-info-text no-margin">Trả giá lên và liên tục</p>
-              </div>
-              <div class="col-6">
-                <p class="left-title-text no-margin">Tên chủ tài sản:</p>
-              </div>
-              <div class="col-6">
-
-                <p class="right-info-text no-margin">{{$auction->user->name}}</p>
-              </div>
-
-
-            </div>
-
-
-          </div>
-
-        </div>
-
-
-      </div>
-
-    </div>
-  </div>
-  <div class="products__filter mb-30">
-    <div class="profile__agent mb-30">
-      <div class="profile__agent__group">
-
-        <div class="profile__agent__header">
-          <div class="profile__agent__header-avatar">
-            <figure>
-              <img
-                src="https://cdna.artstation.com/p/assets/images/images/017/787/280/large/annika-soljander-icons2.jpg?1557336279"
-                alt="" class="img-fluid">
-            </figure>
-
-            <ul class="list-unstyled mb-0">
-              <li>
-                <h5 class="text-capitalize">{{$auction->user->name}}</h5>
-              </li>
-              <li><a href="tel:123456"><i class="fa fa-phone-square mr-1"></i>{{$auction->user->email}}</a></li>
-              <li>
-                <a href="javascript:void(0)">
-                  <ul class="list-inline">
-                    <li class="list-inline-item">
-                      @for($i = 0; $i < $stars; $i++ )
-                        <i class="fa fa-star" style="color: #3454d1;"></i>
-                      @endfor
-                      @for($i = 0; $i < 5 - $stars; $i++ )
-                        <i class="fa fa-star"></i>
-                      @endfor
-                    </li>
-                    <li class="list-inline-item">{{$stars}}/5</li>
-                  </ul>
-                </a>
-              </li>
-            </ul>
-
-
-          </div>
-
-        </div>
-
-        <div class="profile__agent__footer">
-          <div class="form-group mb-0">
-            <button class="btn btn-primary text-capitalize btn-block"> liên hệ <i class="fa fa-phone-square ml-1"></i></button>
-
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-  <!-- END FILTER -->
+@section('vendor-style')
+  <link rel="stylesheet" href="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.css')}}"/>
+  <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-bs5/datatables.bootstrap5.css')}}">
+  <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css')}}">
+  <link rel="stylesheet" href="{{asset('assets/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css')}}">
+  <link rel="stylesheet" href="{{asset('assets/vendor/libs/select2/select2.css')}}"/>
+  <link rel="stylesheet" href="{{asset('assets/vendor/libs/formvalidation/dist/css/formValidation.min.css')}}"/>
 
 @endsection
-@section("custom-js")
-  @if($auction->status == "trading")
 
-    <script>
-      setTimeout(function(){
-        window.location.reload();
-      }, 3000);
-    </script>
-  @endif
+@section('vendor-script')
+  <script src="{{asset('assets/vendor/libs/sweetalert2/sweetalert2.js')}}"></script>
+  <script src="{{asset('assets/vendor/libs/moment/moment.js')}}"></script>
+  <script src="{{asset('assets/vendor/libs/datatables-bs5/datatables-bootstrap5.js')}}"></script>
+  <script src="{{asset('assets/vendor/libs/select2/select2.js')}}"></script>
+  <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/FormValidation.min.js')}}"></script>
+  <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js')}}"></script>
+  <script src="{{asset('assets/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js')}}"></script>
+  <script src="{{asset('assets/vendor/libs/cleavejs/cleave.js')}}"></script>
+  <script src="{{asset('assets/vendor/libs/cleavejs/cleave-phone.js')}}"></script>
 
+@endsection
+
+@section('page-script')
+  @include("layouts.sweetAlertInfo")
+
+  <script src="{{asset('assets/js/forms-selects.js')}}"></script>
+  <script src="{{asset('assets/js/slug.js')}}"></script>
+
+  <script>
+    $( document ).ready(function() {
+      let dtTable = $(".datatable").DataTable({
+        paging: true, searching: true,
+        ordering: false,
+        dom:
+          '<"row me-2"' +
+          '<"col-md-2"<"me-3"l>>' +
+          '<"col-md-10"<"dt-action-buttons text-xl-end text-lg-start text-md-end text-start d-flex align-items-center justify-content-end flex-md-row flex-column mb-3 mb-md-0"fB>>' +
+          '>t' +
+          '<"row mx-2"' +
+          '<"col-sm-12 col-md-6"i>' +
+          '<"col-sm-12 col-md-6"p>' +
+          '>',
+        language: {
+          sLengthMenu: '_MENU_',
+          search: '',
+          searchPlaceholder: 'Search..'
+        },
+        // Buttons with Dropdown
+        buttons: [
+          {
+            text: '<i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span class="d-none d-sm-inline-block">Thêm</span>',
+            className: 'add-new btn btn-primary mx-3',
+            attr: {
+              'onclick' : 'window.location.href="/admin/auctions/create"'
+            }
+          }
+        ],
+
+
+
+
+      });
+    });
+    setTimeout(() => {
+      $('.dataTables_filter .form-control').removeClass('form-control-sm');
+      $('.dataTables_length .form-select').removeClass('form-select-sm');
+    }, 300);
+
+    function deleteEle(element) {
+      let id = element.data("id");
+      let title = "Thao tác không thể hoàn tác!"
+      let name = "Auction " + element.data("name") + " sẽ bị xóa!";
+      Swal.fire({
+        title: title,
+        icon: 'warning',
+        text: name,
+        showDenyButton: true,
+        showCancelButton: false,
+        confirmButtonText: 'Xóa',
+        denyButtonText: 'Không',
+        customClass: {
+          actions: 'my-actions',
+          cancelButton: 'order-1 right-gap',
+          confirmButton: 'btn btn-success mt-2',
+          denyButton: 'btn btn-danger ms-2 mt-2',
+        }
+      }).then(function (e) {
+        e.value
+          ?
+          $.ajax({
+            url: "/admin/auctions/" + id,
+            type: "delete",
+            data: {
+              _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+              if (response) {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Đã xóa!',
+                  text: 'Auction đã được xóa thành công!',
+                  customClass: {
+                    confirmButton: 'btn btn-warning'
+                  },
+                  buttonsStyling: false
+                })
+                $("#" + id).remove();
+              }
+            },
+          })
+
+          :
+          e.dismiss === Swal.DismissReason.cancel;
+      });
+    }
+
+  </script>
+
+
+@endsection
+
+
+@section('content')
+  <!-- Users List Table -->
+  <div class="card mb-3">
+    <div class="card-datatable table-responsive">
+      <table class="datatable nowrap table border-top">
+        <thead>
+        <tr>
+          <th>id</th>
+          <th>Tiêu đề</th>
+          <th>Giá khởi điểm</th>
+          <th>Số người đấu giá</th>
+          <th>Giá hiện tại</th>
+          <th>Ngày kết thúc</th>
+          <th>Trạng thái</th>
+          <th>Ngày tạo</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach($auctions as $auction)
+          <tr id="{{$auction->id}}">
+            <td>{{$auction->id}}</td>
+            <td>{{$auction->title}} </td>
+            <td>{{number_format($auction->start_price)}} </td>
+            <td>{{$auction->bids->count()}}</td>
+            <td>{{number_format($auction->current_price)}} </td>
+            <td>{{ $auction->deadline_time }} </td>
+            <td>
+              @if($auction->status == "done")
+                <span class="badge bg-label-success">Đã hoàn thành</span>
+              @endif
+              @if($auction->status == "bought")
+                <span class="badge bg-label-success">Đã có người mua ngay</span>
+              @endif
+
+              @if($auction->status == "trading")
+                <span class="badge bg-label-warning">Đang giao dịch</span>
+              @endif
+
+              @if($auction->status == "processing")
+                <span class="badge bg-label-info">Đang xử lý</span>
+              @endif
+
+              @if($auction->status == "cancel")
+                <span class="badge bg-label-danger">Hủy bỏ</span>
+              @endif
+
+            </td>
+            <td>{{\Carbon\Carbon::parse($auction->created_at)->format('H:i d/m/Y')}}</td>
+            <td>
+              <div class="d-flex align-items-center">
+                <a target="_blank" href="/admin/auctions/{{$auction->id}}?tab=info" class="text-body">
+                  <i class="ti ti-eye-filled ti-sm me-2">
+                  </i>
+                </a>
+                <a href="javascript:void(0)" onclick="deleteEle($(this))" data-id="{{$auction->id}}" data-name="{{$auction->title}}" class="text-body delete-record">
+                  <i class="ti ti-trash ti-sm mx-2">
+                  </i>
+                </a>
+
+              </div>
+            </td>
+          </tr>
+
+        @endforeach
+        </tbody>
+
+      </table>
+    </div>
+  </div>
 @endsection
