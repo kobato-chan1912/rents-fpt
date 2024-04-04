@@ -52,13 +52,13 @@
         },
         // Buttons with Dropdown
         buttons: [
-          // {
-          //   text: '<i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span class="d-none d-sm-inline-block">Thêm</span>',
-          //   className: 'add-new btn btn-primary mx-3',
-          //   attr: {
-          //     'onclick' : 'window.location.href="/admin/auctions/create"'
-          //   }
-          // }
+          {
+            text: '<i class="ti ti-plus me-0 me-sm-1 ti-xs"></i><span class="d-none d-sm-inline-block">Thêm</span>',
+            className: 'add-new btn btn-primary mx-3',
+            attr: {
+              'onclick' : 'window.location.href="/admin/auctions/create"'
+            }
+          }
         ],
 
 
