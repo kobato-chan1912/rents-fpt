@@ -693,7 +693,7 @@
 
       @if($auction->status == "trading")
 
-      setTimeout(function(){
+      setInterval(function(){
         reloadTable()
       }, 3000);
       @endif
