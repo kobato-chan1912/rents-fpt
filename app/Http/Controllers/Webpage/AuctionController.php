@@ -314,7 +314,8 @@ class AuctionController extends Controller
         if ($auction->status == "trading") // kiểm tra auction có đang ở trading không
         {
           // chuyển trạng thái đơn mua ngay về paid
-          $buyNow = BuyNowPayment::find($buyNowId)->update(["paid_status" => "paid"]);
+          $buyNow = BuyNowPayment::find($buyNowId);
+          $buyNow->update(["paid_status" => "paid"]);
           $auction->update(["status" => "bought", "buy_win_id" => $buyNowId , "deadline_time" => Carbon::now(), "winner_id" => $buyNow->user_id]);
 
           // Trả cọc cho ai đã thanh toán cọc xong
