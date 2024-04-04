@@ -29,6 +29,7 @@ class AuctionController extends Controller
   {
     $data = $request->all();
     $data["user_id"] = Auth::id();
+    $data["status"] = "trading";
     $data["current_price"] = $request->get("start_price");
     Auction::create($data);
     return redirect("/admin/auctions")->with(["success" => "Tạo đấu giá thành công!"]);
