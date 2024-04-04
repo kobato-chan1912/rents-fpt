@@ -32,13 +32,7 @@
       "menuHeader": "KHU VỰC STAFF",
       "middleware": "staff"
     },
-    {
-      "url": "/admin/real_estate",
-      "name": "Quản lý BĐS",
-      "icon": "menu-icon tf-icons ti ti-home",
-      "slug": "admin.real_estate.index",
-      "middleware": "staff"
-    },
+
 
     {
       "url": "/admin/auctions",
