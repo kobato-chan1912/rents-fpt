@@ -53,3 +53,38 @@
 
   </tbody>
 </table>
+@if(Auth::check())
+  @if(Auth::user()->role == 2)
+    @if($auction->deadline_time > \Carbon\Carbon::now())
+      @if(!checkIsHighest(Auth::id(), $auction->id))
+        <a href="/auction/{{$auction->id}}/bid"
+           class="btn btn-primary text-capitalize btn-block text-white"> đấu giá ngay
+          <i class="fa fa-calculator ml-1"></i>
+        </a>
+      @else
+        <p class="text-danger">Bạn đã ở giá cao nhất!</p>
+      @endif
+      @if($auction->buy_price > 0)
+        <a href="javascript:void(0)" onclick="buyThis()"
+           class="btn btn-success text-capitalize btn-block text-white"> Mua ngay với giá {{number_format($auction->buy_price)}}
+          <i class="fa fa-money ml-1"></i>
+        </a>
+      @endif
+      <a href="javascript:void(0)"
+         class="btn btn-info text-capitalize btn-block text-white" onclick="vatPopup()"> Điều khoản VAT
+        <i class="fa fa-info ml-1"></i>
+      </a>
+    @else
+      <p class="text-danger">Đã hết hạn đấu giá!</p>
+    @endif
+
+  @else
+    <p class="text-danger">Bạn không có quyền đấu giá!</p>
+
+  @endif
+@else
+  <a href="/auction/{{$auction->id}}/bid"
+     class="btn btn-primary text-capitalize btn-block text-white"> đấu giá ngay
+    <i class="fa fa-calculator ml-1"></i>
+  </a>
+@endif
