@@ -84,8 +84,7 @@ function translatePropertyType($inputValue) {
 
 function checkIsHighest($userId, $auctionId): bool
 {
-  $check = \App\Models\Auction::where("status", "trading")
-    ->where("id", $auctionId)->orderBy("bid_price", "desc");
+  $check = \App\Models\Bid::where("id", $auctionId)->orderBy("bid_price", "desc");
   if ($check->count() > 0){
     $highest = $check->first();
     if ($highest->user_id == $userId){
