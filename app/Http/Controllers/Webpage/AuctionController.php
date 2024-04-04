@@ -378,4 +378,10 @@ class AuctionController extends Controller
 
   }
 
+  public function getBidAjax($id)
+  {
+    $auction = Auction::find($id);
+    return view("webpage.auctions.ajax", compact('auction'));
+  }
+
 }

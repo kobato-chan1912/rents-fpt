@@ -137,14 +137,4 @@
   <!-- END FILTER -->
 
 @endsection
-@section("custom-js")
-  @if($auction->status == "trading")
 
-    <script>
-      setTimeout(function(){
-        window.location.reload();
-      }, 3000);
-    </script>
-  @endif
-
-@endsection

@@ -25,6 +25,7 @@ Route::get("/auction/checkRemain", [\App\Http\Controllers\Webpage\AuctionControl
 Route::get("/auction/checkRegister", [\App\Http\Controllers\Webpage\AuctionController::class, 'checkRegister']);
 Route::get("/auction/buy_now", [\App\Http\Controllers\Webpage\AuctionController::class, 'checkBuyNow']);
 Route::get("/auction/{id}", [\App\Http\Controllers\Webpage\AuctionController::class, 'index'])->name("auction_detail");
+Route::get("/auction/{id}/getBidAjax", [\App\Http\Controllers\Webpage\AuctionController::class, 'getBidAjax']);
 Route::get("/auction/{id}/bid", [\App\Http\Controllers\Webpage\AuctionController::class, 'bid'])->name("bid")->middleware(["auth", "user"]);
 Route::get("/auction/{id}/buy", [\App\Http\Controllers\Webpage\AuctionController::class, 'addBuyNow'])->name("bid")->middleware(["auth", "user"]);
 Route::post("/auction/{id}/feedback", [\App\Http\Controllers\Webpage\AuctionController::class, 'addFeedback'])->middleware(["auth", "user"]);;
