@@ -60,7 +60,7 @@
     $("form").on('submit', function (e){
         let start_price = $("#start_price").val()
         let buy_price = $("#buy_price").val()
-        if (start_price >= buy_price){
+        if (parseInt(start_price) >= parseInt(buy_price)){
           e.preventDefault()
           alert("Giá mua ngay phải lớn hơn giá khởi điểm!")
         }
