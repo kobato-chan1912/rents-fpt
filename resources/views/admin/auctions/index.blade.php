@@ -140,6 +140,7 @@
           <th>Ngày kết thúc</th>
           <th>Trạng thái</th>
           <th>Ngày tạo</th>
+          <th></th>
         </tr>
         </thead>
         <tbody>
@@ -173,6 +174,19 @@
 
             </td>
             <td>{{\Carbon\Carbon::parse($auction->created_at)->format('H:i d/m/Y')}}</td>
+            <td>
+              <div class="d-flex align-items-center">
+                <a target="_blank" href="/admin/auctions/{{$auction->id}}?tab=info" class="text-body">
+                  <i class="ti ti-eye-filled ti-sm me-2">
+                  </i>
+                </a>
+                <a href="javascript:void(0)" onclick="deleteEle($(this))" data-id="{{$auction->id}}" data-name="{{$auction->title}}" class="text-body delete-record">
+                  <i class="ti ti-trash ti-sm mx-2">
+                  </i>
+                </a>
+
+              </div>
+            </td>
           </tr>
 
         @endforeach
